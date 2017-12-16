@@ -1,8 +1,8 @@
 {
     "name": "twz-client-ionic",
     "version": "0.1.55",
-    "author": "Tunaweza",
-    "homepage": "http://tunaweza.com/",
+    "author": "jimmmy",
+    "homepage": "http://asante.com/",
     "private": true,
     "scripts": {
         "clean": "ionic-app-scripts clean",
