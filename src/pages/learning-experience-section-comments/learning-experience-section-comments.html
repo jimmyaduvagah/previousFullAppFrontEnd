@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <!--<ion-buttons left>-->
+      <!--<button ion-button icon-only (tap)="goBack()">-->
+        <!--<ion-icon name="arrow-back"></ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
+    <ion-title>Community Discussion</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (tap)="createPost()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content (pan)="pan($event)">
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-grid fixed>
+
+      <ion-list [@fadeInOut]  scrollbar-x="false" scrollbar-y="false" *ngIf="!showPlaceholder">
+        <ion-row>
+          <ion-col col-12 col-md-6 col-lg-4 *ngFor="let item of posts">
+            <ion-card>
+              <post (goToPostEvent)="goToPost($event)" [post]="item"></post>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-list>
+
+      <ion-infinite-scroll (ionInfinite)="loadMoreItems($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-grid>
+
+
+
+</ion-content>

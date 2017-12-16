@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title *ngIf="!loading">{{ survey.title }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <div *ngIf="!loading" >
+    <div class="survey-group" *ngFor="let surveyGroup of survey.groups">
+      <h1 class="survey-group-heading">{{ surveyGroup.title }}</h1>
+      <survey-question *ngFor="let question of surveyGroup.questions" [question]="question" (surveyQuestionResponseOutput)="updateResponses($event)"></survey-question>
+    </div>
+  </div>
+  <div padding>
+    <button ion-button full color="primary" (tap)="submitSurvey()">Submit</button>
+  </div>
+
+</ion-content>
+

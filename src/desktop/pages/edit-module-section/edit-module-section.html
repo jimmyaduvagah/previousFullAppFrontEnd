@@ -1,0 +1,284 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+       Edit {{section.title}}
+    </ion-title>
+    <ion-buttons *ngIf="getSectionTitle(moduleSection.content_type).includes('quiz')" end>
+      <button ion-button icon-only color="royal" (tap)="activateQuestionSort()" *ngIf = "!showQuestionSort">
+        <ion-icon name="list"></ion-icon>
+      </button>
+      <button ion-button icon-only color="royal" (tap)="deactivateQuestionSort()" *ngIf = "showQuestionSort">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+      <ion-row>
+          <ion-col col-8>
+              <div *ngIf="!loading">
+                  <div padding *ngIf="getSectionTitle(moduleSection.content_type).includes('text')">
+                      <form [formGroup]="textSectionForm" (ngSubmit)="editSectionText()">
+                          <h1> Text Section</h1>
+                          <ion-item>
+                              <ion-label floating>Title</ion-label>
+                              <ion-input type="text"
+                                         name="title"
+                                         formControlName="title">
+                              </ion-input>
+                          </ion-item>
+
+                          <ion-item>
+                              <ion-label floating>Text Content</ion-label>
+                              <ion-textarea
+                                      type="text"
+                                      fz-elastic
+                                      name="text"
+                                      formControlName="text" (change)="contentChanged($event)">
+                              </ion-textarea>
+                          </ion-item>
+                          <ion-item>
+                              <ion-label floating>Text Color</ion-label>
+                              <ion-input type="text" formControlName="textColor" name="textColor" (change)="contentChanged($event)"></ion-input>
+                          </ion-item>
+                          <ion-item>
+                              <ion-label floating>Background Color</ion-label>
+                              <ion-input type="text" formControlName="backgroundColor" name="backgroundColor" (change)="contentChanged($event)"></ion-input>
+                          </ion-item>
+
+                          <div padding>
+                              <button ion-button outline class="le-btn" type="submit">
+                                  Save Section Text
+                              </button>
+                          </div>
+                      </form>
+                  </div>
+                  <div *ngIf="getSectionTitle(moduleSection.content_type).includes('image')" >
+                      <form [formGroup]="imageSectionForm" (ngSubmit)="uploadImage()">
+                          <h1> Image Section</h1>
+                          <ion-item>
+                              <ion-label floating>Title</ion-label>
+                              <ion-input
+                                      type="text"
+                                      name="title"
+                                      formControlName="title">
+                              </ion-input>
+                          </ion-item>
+                          <ion-item>
+                              <ion-label floating>Text</ion-label>
+                              <ion-textarea fz-elastic
+                                            type="text"
+                                            name="text"
+                                            formControlName="text">
+                              </ion-textarea>
+                          </ion-item>
+
+                          <ion-item>
+                              <label>  Image </label>
+                              <ion-thumbnail>
+                                  <img [src]="section.image.src" >
+                              </ion-thumbnail>
+                          </ion-item>
+                          <ion-item>
+                              <label> Change Image </label>
+                              <input name="image" [ngModel]="imageSection"
+                                     type="file"
+                                     (change)="changeImage($event)"
+                                     [ngModelOptions]="{standalone: true}"
+                                     accept="image/*"
+                              >
+                          </ion-item>
+
+                          <div padding>
+                              <button ion-button outline class="le-btn" type="submit">
+                                  Edit Image Section
+                              </button>
+                          </div>
+                      </form>
+                  </div>
+                  <div *ngIf="getSectionTitle(moduleSection.content_type).includes('video')">
+                      <form [formGroup]="videoForm" (ngSubmit)="editSectionVideo()">
+                          <h1> Video Section</h1>
+                          <ion-item>
+                              <ion-label floating>Title </ion-label>
+                              <ion-input
+                                      type="text"
+                                      name="title"
+                                      formControlName="title">
+                              </ion-input>
+                          </ion-item>
+
+                          <ion-item>
+                              <ion-label floating> Text  </ion-label>
+                              <ion-textarea
+                                      fz-elastic
+                                      name="text"
+                                      formControlName="text">
+                              </ion-textarea>
+                          </ion-item>
+
+                          <ion-item>
+                              <ion-label floating> Video Length </ion-label>
+                              <ion-input
+                                      type="text"
+                                      name="length"
+                                      formControlName="length">
+                              </ion-input>
+                          </ion-item>
+
+                          <ion-item>
+                              <ion-label floating> Vimeo Video Id  </ion-label>
+                              <ion-input
+                                      type="text"
+                                      name="vimeo_id"
+                                      formControlName="vimeo_id">
+                              </ion-input>
+                          </ion-item>
+
+                          <button ion-button type="submit"  outline class="le-btn"  >
+                              Save Video Section
+                          </button>
+                      </form>
+                  </div>
+                  <div *ngIf="getSectionTitle(moduleSection.content_type).includes('quiz')">
+                      <ion-card>
+                          <ion-card-header >  Quiz    </ion-card-header>
+                          <ion-card-content>
+                              <ion-item>
+                                  <h5>{{section.quiz.title}}</h5>
+                                  <p>{{section.quiz.instructions}}</p>
+                                  <button ion-button clear item-right (click)="activateQuestionForm()">Add New Question</button>
+                                  <button ion-button clear item-right (click)="activateQuizForm()">Edit</button>
+
+                                  <form [formGroup]="quizForm" *ngIf="showQuizForm" (ngSubmit)="editQuiz()">
+                                      <ion-item>
+                                          <ion-label floating>Title </ion-label>
+                                          <ion-input type="text" name="title" formControlName="title"></ion-input>
+                                      </ion-item>
+
+                                      <ion-item>
+                                          <ion-label floating> Instructions  </ion-label>
+                                          <ion-textarea fz-elastic name="instructions" formControlName="instructions"></ion-textarea>
+                                      </ion-item>
+
+                                      <div padding>
+                                          <button ion-button type="submit"  outline class="le-btn"  [disabled]="!quizForm.valid">
+                                              Submit Changes
+                                          </button>
+                                      </div>
+                                  </form>
+                              </ion-item>
+
+                          </ion-card-content>
+                      </ion-card>
+                      <form *ngIf="showQuestionForm" [formGroup]="questionForm" (ngSubmit)="addQuestion()">
+                          <ion-item>
+                              <ion-label floating> Question  </ion-label>
+                              <ion-textarea fz-elastic name="question" formControlName="question"></ion-textarea>
+                              <button ion-button type="submit"  clear item-right class="le-btn"  [disabled]="!questionForm.valid">
+                                  Submit Question
+                              </button>
+                          </ion-item>
+                      </form>
+                      <ion-list reorder="{{showQuestionSort}}"  (ionItemReorder)="reorderQuestions($event)">
+                          <ion-item *ngFor="let question of section.quiz.quiz_questions let i = index">
+                              <ion-card>
+                                  <ion-card-header >
+                                      <ion-item>
+                                          <h5>Question</h5>
+                                          <h5>{{question.question}}</h5>
+                                          <button ion-button clear item-right (tap)="goToEditQuestion(question , question.id , i)" >Edit</button>
+                                          <button ion-button clear item-right (tap)="deleteQuestion(question.id , i)">Delete</button>
+                                          <button item-right ion-button icon-only color="royal" (tap)="activateAnswerSort()" *ngIf = "!showAnswerSort">
+                                              <ion-icon name="list"></ion-icon>
+                                          </button>
+                                          <button item-right ion-button icon-only color="royal" (tap)="deactivateAnswerSort(i)" *ngIf = "showAnswerSort">
+                                              <ion-icon name="checkmark"></ion-icon>
+                                          </button>
+
+                                      </ion-item>
+
+                                  </ion-card-header>
+
+                                  <ion-card-content>
+                                      <ion-list reorder="{{showAnswerSort}}" (ionItemReorder)="reorderAnswers($event,i)">
+                                          <ion-item *ngFor="let answer of question.answers let a = index">
+                                              <li>{{answer.answer}}</li>
+                                              <button ion-button clear item-right (tap)="goToEditAnswer(answer , answer.id , a , i)">Edit</button>
+                                              <button ion-button clear item-right (tap)="deleteAnswer(question_id,i,answer.id,a)">Delete</button>
+                                          </ion-item>
+                                      </ion-list>
+                                  </ion-card-content>
+                              </ion-card>
+                          </ion-item>
+                      </ion-list>
+                  </div>
+                  <div *ngIf="getSectionTitle(moduleSection.content_type).includes('gallery')" padding-bottom>
+                      <form [formGroup]="galleryForm" (submit)="editGallerySection()">
+                          <h1> Gallery Section</h1>
+                          <ion-item>
+                              <ion-label floating>Title </ion-label>
+                              <ion-input type="text" name="title" formControlName="title"></ion-input>
+                          </ion-item>
+                          <ion-item>
+                              <ion-label floating> Text  </ion-label>
+                              <ion-textarea fz-elastic name="text" formControlName="text"></ion-textarea>
+                          </ion-item>
+                          <div>
+                              <button ion-button type="submit"  outline class="le-btn">
+                                  Save Gallery Section
+                              </button>
+                          </div>
+                      </form>
+                  <div style="position: relative; margin-top:80px; padding-bottom: 60px;">
+                          <ion-list-header color="primary">
+                              Gallery Images
+                              <button item-right ion-button icon-only clear color="light" (tap)="activateGallerySort()" *ngIf = "!showGallerySort">
+                                  <ion-icon name="list"></ion-icon>
+                              </button>
+                              <button item-right ion-button icon-only clear color="light" (tap)="deactivateGallerySort()" *ngIf = "showGallerySort">
+                                  <ion-icon name="checkmark"></ion-icon>
+                              </button>
+                          </ion-list-header>
+                          <ion-list style="list-style: none" reorder="{{showGallerySort}}"  (ionItemReorder)="reorderGalleryimages($event)">
+                              <ion-item *ngFor=" let galimage of section.gallery.images let g=index">
+                                  <ion-thumbnail>
+                                      <img [src]="galimage.image.src" >
+                                  </ion-thumbnail>
+                                  <button ion-button clear item-right (tap)="editGalleryImage(galimage.gallery_id,
+                       galimage.id, galimage.order, galimage.image, true)">Edit</button>
+                                  <button ion-button clear item-right (tap)="deleteImage(galimage.id , g)">Delete</button>
+                              </ion-item>
+                          </ion-list>
+                          <ion-fab bottom right>
+                              <button ion-fab (tap)="addNewGallaryImage(true, section.gallery_id )">
+                                  <ion-icon name="add"></ion-icon>
+                              </button>
+                          </ion-fab>
+                      </div>
+                      <div>
+                      </div>
+                  </div>
+              </div>
+          </ion-col>
+
+          <ion-col col-4>
+              <h2>Preview</h2>
+              <div class="aspect-ratio-box aspect-ratio-9-16">
+                  <div class="aspect-ratio-box-inside">
+                      <learning-experience-section [editMode]="true" [section]="section" [index]="moduleSection.order" [scrollable]="true"></learning-experience-section>
+                  </div>
+
+              </div>
+          </ion-col>
+
+      </ion-row>
+
+  </ion-grid>
+
+</ion-content>

@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Edit Module: <span *ngIf="!loading">{{module.title}}</span>
+    </ion-title>
+    <ion-buttons end *ngIf="!loading">
+      <button ion-button [disabled]="!leModuleForm.valid" (tap)="uploadModule()">
+        Save Section
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="leModuleForm" (ngSubmit)="false" *ngIf="!loading">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-2>
+          <img *ngIf="module.image && !base64Image" [src]="module.image.src" (tap)="focusImageInput()">
+
+          <img *ngIf="base64Image" [src]="base64Url()">
+
+          <button ion-button block outline *ngIf="!base64Image" (tap)="focusImageInput()">
+            <span *ngIf="module.image">Change Image</span>
+            <span *ngIf="!module.image">Add Image</span>
+          </button>
+
+          <button ion-button block outline color="danger" *ngIf="base64Image" (tap)="clearImage()">
+            Undo Image Change
+          </button>
+
+          <input #imageInput name="image" [ngModel]="moduleimage"
+                 type="file"
+                 (change)="changeImage($event)"
+                 [ngModelOptions]="{standalone: true}"
+                 accept="image/*" style="visibility: hidden">
+          <ion-item>
+            <ion-label stacked>  Image Intellectual Property </ion-label>
+            <ion-select name="image_ip" formControlName="image_ip">
+              <ion-option value="true">
+                Yes
+              </ion-option>
+              <ion-option value="false">
+                No
+              </ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col col-10>
+          <ion-row>
+            <ion-col col-5>
+              <ion-item>
+                <ion-label stacked>Title </ion-label>
+                <ion-input type="text" name="title"   formControlName="title"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label stacked>Description </ion-label>
+                <ion-textarea fz-elastic name="description"   formControlName="description"></ion-textarea>
+              </ion-item>
+              <ion-item style="visibility: hidden">
+                <ion-label floating> Learning Experience </ion-label>
+                <ion-input type="text"
+                           name="course"
+                           formControlName="course">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-3>
+              <!--is this needed?-->
+
+
+            </ion-col>
+
+            <ion-col col-2>
+              <ion-item >
+                <ion-label stacked>State </ion-label>
+                <ion-select name="state" formControlName="state">
+                  <ion-option *ngFor="let state of module_states" value="{{state.value}}">
+                    {{state.title}}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="loadingSections">
+            <ion-item>
+              <ion-spinner item-start></ion-spinner>
+              Loading Sections...
+            </ion-item>
+          </ion-row>
+          <ion-row *ngIf="!loadingSections">
+            <ion-col padding>
+              <h2>Sections</h2>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="!loadingSections">
+            <ion-col col-3 *ngFor="let section of module.sections; let index = index">
+              <!--<learning-experience-list-item (tap)="goToLeModule(leModule)" [item]="leModule"></learning-experience-list-item>-->
+              <div class="aspect-ratio-box aspect-ratio-9-16">
+                <div class="aspect-ratio-box-inside">
+                  <learning-experience-section [editMode]="true" [section]="section" (tap)="goToEditModuleSection(moduleSections[index], moduleSections[index].object_id)" [index]="index" [scrollable]="true"></learning-experience-section>
+                </div>
+
+              </div>
+            </ion-col>
+            <ion-col col-3>
+              <learning-experience-list-item (tap)="addNewModuleSection()" [item]="addNewSection" [localImage]="true"></learning-experience-list-item>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </form>
+</ion-content>

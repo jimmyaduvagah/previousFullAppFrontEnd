@@ -1,0 +1,155 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Content Sections
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-8>
+    <div padding *ngIf="loadText">
+      <h1> Text Section</h1>
+      <ion-item>
+        <ion-label floating>Title</ion-label>
+        <ion-input type="text" [(ngModel)]="_sectionText.title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Text Content</ion-label>
+        <ion-textarea fz-elastic type="text" [(ngModel)]="_sectionText.text"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Text Color</ion-label>
+        <ion-input type="text" [(ngModel)]="_sectionText.textColor"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Background Color</ion-label>
+        <ion-input type="text" [(ngModel)]="_sectionText.backgroundColor"></ion-input>
+      </ion-item>
+      <div></div>
+      <div padding>
+        <button ion-button outline class="le-btn" (tap)="addSectionText()">
+          Save New Section Text
+        </button>
+      </div>
+    </div>
+    <div padding *ngIf="loadImage">
+      <h1> Image Section</h1>
+      <ion-item>
+        <ion-label floating>Title</ion-label>
+        <ion-input type="text" [(ngModel)]="_sectionImage.title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Text</ion-label>
+        <ion-textarea fz-elastic type="text" [(ngModel)]="_sectionImage.text"></ion-textarea>
+      </ion-item>
+      <div>
+        <ion-item>
+          <label> Upload Image </label>
+          <input [(ngModel)]="leimage" type="file" accept="image/*" (change)="changeImage($event)">
+        </ion-item>
+      </div>
+      <ion-item>
+          <ion-label stacked>  Image Intellectual Property </ion-label>
+          <ion-select name="image_ip" [(ngModel)]="_sectionImage.image_ip">>
+            <ion-option value="true">
+              Yes
+            </ion-option>
+            <ion-option value="false">
+              No
+            </ion-option>
+          </ion-select>
+      </ion-item>
+      <div padding>
+        <button ion-button outline class="le-btn" (tap)="addSectionImage()">
+          Save New Image Section
+        </button>
+      </div>
+    </div>
+    <div padding *ngIf="loadVideo">
+      <h1> Video Section</h1>
+
+          <form [formGroup]="videoForm" (ngSubmit)="addSectionVideo()">
+
+            <ion-item>
+              <ion-label floating>Title </ion-label>
+              <ion-input type="text" name="title" formControlName="title"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label floating> Text  </ion-label>
+              <ion-textarea fz-elastic name="text" formControlName="text"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+              <ion-label floating> Video Length </ion-label>
+              <ion-input type="text" name="length" formControlName="length"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label floating> Vimeo Video Id  </ion-label>
+              <ion-input type="text" name="vimeo_id" formControlName="vimeo_id"></ion-input>
+            </ion-item>
+
+            <button ion-button type="submit"  outline class="le-btn"  [disabled]="!videoForm.valid">
+                        Save New Video Section
+            </button>
+          </form>
+    </div>
+    <div padding *ngIf="loadGallery">
+      <h1> Gallery Section</h1>
+          <form [formGroup]="galleryForm" (ngSubmit)="addSectionGallery()">
+
+            <ion-item>
+              <ion-label floating>Title </ion-label>
+              <ion-input type="text" name="title" formControlName="title"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label floating> Text  </ion-label>
+              <ion-textarea fz-elastic name="text" formControlName="text"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+                <label> Gallery Images  </label>
+                <input [ngModel]="_sectionGallery.images" accept="image/*" type="file" (change)="changeGalleryImages($event)" [ngModelOptions]="{standalone: true}" multiple>
+            </ion-item>
+
+            <div padding>
+                <button ion-button type="submit"  outline class="le-btn"  [disabled]="!galleryForm.valid">
+                            Save New Gallery Section
+                </button>
+            </div>
+          </form>
+      </div>
+      </ion-col>
+
+      <ion-col col-4 *ngIf="loadText">
+        <h2 >Preview</h2>
+        <div class="aspect-ratio-box aspect-ratio-9-16">
+          <div class="aspect-ratio-box-inside">
+            <learning-experience-section [editMode]="true" [section]="previewSection" [index]="1" [scrollable]="true"></learning-experience-section>
+          </div>
+
+        </div>
+
+      </ion-col>
+
+      <ion-col col-4 *ngIf="!loadText">
+        <h2>Markdown Preview</h2>
+        <div class="aspect-ratio-box aspect-ratio-9-16">
+          <div class="aspect-ratio-box-inside">
+            <div [innerHtml]="markdownPreview">
+
+            </div>
+          </div>
+        </div>
+
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

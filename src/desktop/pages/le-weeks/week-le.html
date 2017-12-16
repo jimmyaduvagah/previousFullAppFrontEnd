@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+        Published LEs Summary
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content *ngIf="!loading">
+  <ion-grid fixed>
+   <table>
+    <thead class="le-summary-thead">
+      <th>
+        #
+      </th>
+      <th>
+        DATE
+      </th>
+
+      <th>
+        LE
+      </th>
+      <th>
+        CATEGORY
+      </th>
+      <th>
+        AUTHOR(S)
+      </th>
+    </thead>
+    <tbody class="le-summary-tbody">
+     <tr *ngFor="let le of week_results; let l = index;">
+       <td>
+         {{l+1}}
+       </td>
+       <td>
+              {{ le.created_on.slice(0,10)}}
+         </td>
+        <td>
+            {{le.title}}
+        </td>
+       <td text-wrap>
+              {{ le.category}}
+       </td>
+       <td>
+            <tr *ngFor="let author of le.authors_json">
+                {{author.name}}
+            </tr>
+        </td>
+     </tr>
+    </tbody>
+  </table>
+
+  </ion-grid>
+</ion-content>

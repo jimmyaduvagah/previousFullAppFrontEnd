@@ -1,0 +1,79 @@
+<!--
+  Generated template for the LearningExperienceRatingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Rate this LE</ion-title>
+    <ion-buttons end>
+      <button ion-button (tap)="submitReview()">
+        Save
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <h1>Congratulations!</h1>
+  <h2>You have completed <b>{{ le.title }}</b>!</h2>
+
+    <p>In order to get credit for taking this LE, and help make this and future LEs better, you must leave an overall rating and a review.  </p>
+  <ion-list>
+    <ion-item>
+      <ion-label stacked>My Rating</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-grid>
+        <ion-row style="font-size: 8vw;" text-center>
+          <ion-col>
+            <ion-icon [color]="myReview.rating ? 'primary':''" [name]="starIcon(1)" (tap)="setRating(1)"></ion-icon>
+          </ion-col>
+          <ion-col>
+            <ion-icon [color]="myReview.rating ? 'primary':''" [name]="starIcon(2)" (tap)="setRating(2)"></ion-icon>
+          </ion-col>
+          <ion-col>
+            <ion-icon [color]="myReview.rating ? 'primary':''" [name]="starIcon(3)" (tap)="setRating(3)"></ion-icon>
+          </ion-col>
+          <ion-col>
+            <ion-icon [color]="myReview.rating ? 'primary':''" [name]="starIcon(4)" (tap)="setRating(4)"></ion-icon>
+          </ion-col>
+          <ion-col>
+            <ion-icon [color]="myReview.rating ? 'primary':''" [name]="starIcon(5)" (tap)="setRating(5)"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+      <ion-item>
+        <ion-label stacked>My Review</ion-label>
+        <ion-textarea
+          style="height:120px;"
+          placeholder="Leave some feedback for the LE"
+          [(ngModel)]="myReview.review"
+          autocapitalize="sentences"
+          autocorrect="on"
+          autocomplete="on"
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+</ion-content>
+<ion-footer no-border>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+        <button ion-button color="primary" outline icon-right block (tap)="submitReview()">
+          Submit my Rating
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</ion-footer>

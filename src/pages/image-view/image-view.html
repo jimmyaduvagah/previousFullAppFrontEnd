@@ -1,0 +1,12 @@
+<ion-content>
+  <div ion-fixed>
+    <button ion-button icon-only clear (tap)="close()" class="btn-close">
+      <ion-icon name="close" ></ion-icon>
+    </button>
+  </div>
+  <ion-slides [zoom]="true">
+    <ion-slide>
+      <img [src]="imageSrc" *ngIf="imageSrc" />
+    </ion-slide>
+  </ion-slides>
+</ion-content>

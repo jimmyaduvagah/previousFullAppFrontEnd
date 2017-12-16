@@ -1,0 +1,22 @@
+page-profile-experience-edit {
+
+  ion-content {
+    background-color: $twz-card-page-bg !important;
+  }
+
+  .btn-experience-remove-container {
+    width: 100%;
+    display: block;
+    position: relative;
+    overflow: visible;
+
+    .btn-experience-remove {
+      position: absolute;
+      display: block;
+      z-index: 99;
+      right: 5px;
+      top: 5px;
+    }
+
+  }
+}

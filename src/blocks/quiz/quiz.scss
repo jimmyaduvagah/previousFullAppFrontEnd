@@ -1,0 +1,16 @@
+.quiz-question {
+  margin-bottom: 10px;
+
+  ion-card-header {
+    white-space: normal;
+  }
+
+  button.correct > ion-icon {
+    color: $twz-green;
+  }
+
+  button.wrong > ion-icon {
+    color: $twz-red;
+  }
+
+}

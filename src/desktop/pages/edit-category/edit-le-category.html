@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Edit {{leCategory.title}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+
+  <ion-item>
+    <ion-label floating>Title</ion-label>
+    <ion-input type="text" [(ngModel)]="leCategory.title" ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Description</ion-label>
+    <ion-textarea fz-elastic [(ngModel)]="leCategory.description" ></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Color</ion-label>
+    <ion-input type="text" [(ngModel)]="leCategory.color" ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Is Active</ion-label>
+    <ion-radio value="false" ></ion-radio>
+  </ion-item>
+  <ion-item>
+    <ion-label>Deleted</ion-label>
+    <ion-radio value="false" ></ion-radio>
+  </ion-item>
+
+  <button ion-button outline class="le-btn" (click)="EditCategory()">
+    Save Category
+  </button>
+
+</ion-content>
+

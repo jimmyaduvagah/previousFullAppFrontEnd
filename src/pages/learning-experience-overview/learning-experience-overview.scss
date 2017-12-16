@@ -1,0 +1,21 @@
+page-learning-experience-overview {
+
+  .toolbar-background, .toolbar-background-md {
+    transition: 300ms;
+  }
+
+  .le-rating {
+    font-size: 150%;
+    //border-top: 2px solid $twz-card-page-bg;
+    //border-bottom: 2px solid $twz-card-page-bg;
+    padding: 5px 30px;
+    color: $twz-orange;
+  }
+
+  ion-content {
+    .scroll-content, .fixed-content {
+      transition: padding-top 200ms, padding-bottom 100ms, margin-top 200ms, margin-bottom 100ms;
+    }
+  }
+
+}

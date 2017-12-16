@@ -1,0 +1,30 @@
+<ion-card>
+
+  <div (tap)="goToPost(post)" *ngIf="!detail" style="position: relative;display: block;"><div class="post-image" Image
+       [imageSrc]="post.linked_content_object.data.image"
+       [useCache]="true"
+       [autoSetHeight]="autoSetHeight"
+       [lazyLoad]="true"
+       [imageSize]="imageSize"></div>
+  </div>
+  <div (tap)="goToPost(post)" *ngIf="!detail" style="padding:0 10px; white-space: normal; white-space: pre-line;">
+    <h2>{{ post.linked_content_object.data.title }}</h2>
+    <p>{{ post.linked_content_object.data.description }}</p>
+  </div>
+
+
+  <a *ngIf="detail" [href]="post.linked_content_object.data.url" style="position: relative;display: block;">
+    <img class="post-image" Image
+    [imageSrc]="post.linked_content_object.data.image"
+    [useCache]="true"
+    [lazyLoad]="true"
+    [autoSetHeight]="autoSetHeight"
+    [imageSize]="imageSize" />
+  </a>
+  <div *ngIf="detail" style="padding:0 10px; white-space: normal; white-space: pre-line;">
+    <a [href]="post.linked_content_object.data.url"><h2>{{ post.linked_content_object.data.title }}</h2></a>
+    <p>{{ post.linked_content_object.data.description }}</p>
+  </div>
+
+
+</ion-card>

@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+        {{le.title}}  Modules
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (tap)="activateSort()" *ngIf = "!showSort">
+        <ion-icon name="list"></ion-icon>
+      </button>
+      <button ion-button icon-only color="royal" (tap)="deactivateSort()" *ngIf = "showSort">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <div padding>
+      <ion-searchbar (ionInput)="filterLes($event)" placeholder="Learning Experience Modules"></ion-searchbar>
+       <ion-list *ngIf="!loading" reorder="{{showSort}}" (ionItemReorder)="reorderItems($event)">
+          <ion-item  *ngFor="let leModule of leModulesResponse.results" >
+            <ion-avatar item-left >
+              <img [src]="leModule.image.src">
+            </ion-avatar>
+            <h2>{{leModule.title}}</h2>
+            <p>{{leModule.description}}</p>
+            <button ion-button clear item-right (click)="goToEditModule(leModule)">Edit</button>
+            <button ion-button clear item-right (click)="goToSection(leModule)">Edit Sections</button>
+            <button ion-button clear item-right (click)="deleteLeModule(leModule.id)">Delete</button>
+          </ion-item>
+        </ion-list>
+
+        <ion-fab bottom right>
+         <button ion-fab (click)="addNewModule()">
+           <ion-icon name="add"></ion-icon>
+         </button>
+       </ion-fab>
+
+    </div>
+  </ion-grid>
+</ion-content>

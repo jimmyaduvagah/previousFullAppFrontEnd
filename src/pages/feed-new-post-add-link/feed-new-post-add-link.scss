@@ -1,0 +1,37 @@
+page-feed-new-post-add-link {
+
+
+  ion-item {
+    padding-left: 0!important;
+  }
+
+  ion-item .item-inner {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  ion-item .input-wrapper {
+    padding: 0!important;
+  }
+
+  ion-item ion-label {
+    margin: 0!important;
+  }
+
+  .post-image, .link-image {
+    width: 100%;
+  }
+
+  .link-small-image {
+    width: 100px;
+    height: 100px;
+    top:0;
+    background-position: center top;
+    margin: 0px;
+  }
+
+  .link-small-image-description {
+    vertical-align: top;
+    padding-left: 2px;
+  }
+}

@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+       {{section.title}} Gallery Image
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div padding *ngIf="!options">
+      <ion-thumbnail>
+        <img [src]="galimage.src">
+      </ion-thumbnail>
+      <ion-item>
+        <label> Change Image </label>
+        <input name="image" #fileInput type="file" accept="image/*" (change)="changeImage($event)">
+      </ion-item>
+      <button ion-button clear item-right (tap)="changeGalleryImage()">Save Edited Image</button>
+    </div>
+    <div *ngIf="options">
+      <ion-item>
+        <label> Add New Image </label>
+        <input name="image" #fileInput2 type="file" accept="image/*" (change)="changeImage2($event)">
+      </ion-item>
+      <button ion-button clear item-right (tap)="changeGalleryImage2()">Save New Image</button>
+    </div>
+
+</ion-content>

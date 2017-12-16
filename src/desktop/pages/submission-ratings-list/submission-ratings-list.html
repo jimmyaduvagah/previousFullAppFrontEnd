@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      LE Submission Ratings List
+    </ion-title>
+    <ion-buttons right>
+      <button ion-button (tap)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-row>
+        <ion-col>
+          User
+        </ion-col>
+        <ion-col text-wrap>
+          Average Rating
+        </ion-col>
+        <ion-col *ngFor="let metric of metricsList" text-wrap>
+          {{ metric.metric }}
+        </ion-col>
+        <ion-col text-wrap>Comments</ion-col>
+      </ion-row>
+    </ion-item>
+    <ion-item *ngFor="let rating of ratings">
+      <ion-row>
+        <ion-col>
+          {{ rating.created_by }}
+        </ion-col>
+        <ion-col>
+          {{ rating.average_rating }}
+        </ion-col>
+        <ion-col *ngFor="let metric of metricsList">
+          {{ rating.ratings[metric.metric] }}
+        </ion-col>
+        <ion-col text-wrap>
+          {{ rating.comments }}
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

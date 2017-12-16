@@ -1,0 +1,20 @@
+<div> <!-- for some reason this post image needs to be in a block element...-CJ  -->
+  <div class="post-image" *ngIf="!detail"
+       Image
+       backgroundSize="cover"
+       [imageSrc]="post.linked_content_object.src"
+       [resize]="'500x500'"
+       [autoSetHeight]="false"
+       (tap)="goToPost(post)"
+  ></div>
+
+  <div class="post-image" *ngIf="detail"
+       Image
+       backgroundSize="contain"
+       [imageSrc]="post.linked_content_object.src"
+       [resize]="'1000x1000'"
+       [autoSetHeight]="true"
+       [imageSize]="post.linked_content_object"
+       (tap)="viewImage()"
+  ></div>
+</div>

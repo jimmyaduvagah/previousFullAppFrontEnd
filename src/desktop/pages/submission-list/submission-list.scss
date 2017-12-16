@@ -1,0 +1,112 @@
+page-submission-list {
+  $spacer: 10px;
+  $table-bg: white;
+  $table-cell-padding: 3px;
+  $table-border-width: 1px;
+  $table-border-color: #cbcbcb;
+  $table-accent-bg: #c5cfdf;
+
+  font-size: 110%;
+
+
+  table {
+    width: auto;
+    height: auto;
+    display: table;
+  }
+  table.submission-list {
+    width: 100%;
+  }
+  .submission-list thead tr th,
+  .submission-list tbody tr td
+  {
+    text-align: left;
+    vertical-align: middle;
+  }
+  .display-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+
+
+  //
+  // Basic Bootstrap table
+  //
+
+  .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: $spacer;
+    background-color: $table-bg; // Reset for nesting within parents with `background-color`.
+
+    th,
+    td {
+      padding: $table-cell-padding;
+      vertical-align: top;
+      border-top: $table-border-width solid $table-border-color;
+    }
+
+    thead th {
+      vertical-align: bottom;
+      border-bottom: (2 * $table-border-width) solid $table-border-color;
+    }
+
+    tbody + tbody {
+      border-top: (2 * $table-border-width) solid $table-border-color;
+    }
+
+    .table {
+      background-color: $table-bg;
+    }
+  }
+
+
+  // Bordered version
+  //
+  // Add borders all around the table and between all the columns.
+
+  .table-bordered {
+    border: $table-border-width solid $table-border-color;
+
+    th,
+    td {
+      border: $table-border-width solid $table-border-color;
+    }
+
+    thead {
+      th,
+      td {
+        border-bottom-width: (2 * $table-border-width);
+      }
+    }
+  }
+
+
+  // Zebra-striping
+  //
+  // Default zebra-stripe styles (alternating gray and transparent backgrounds)
+
+  .table-striped {
+    tbody tr:nth-of-type(odd) {
+      background-color: $table-accent-bg;
+    }
+  }
+
+  //
+  //.table-responsive {
+  //  @include media-breakpoint-down(md) {
+  //    display: block;
+  //    width: 100%;
+  //    overflow-x: auto;
+  //    -ms-overflow-style: -ms-autohiding-scrollbar; // See https://github.com/twbs/bootstrap/pull/10057
+  //
+  //    // Prevent double border on horizontal scroll due to use of `display: block;`
+  //    &.table-bordered {
+  //      border: 0;
+  //    }
+  //  }
+  //}
+  //
+  //
+}

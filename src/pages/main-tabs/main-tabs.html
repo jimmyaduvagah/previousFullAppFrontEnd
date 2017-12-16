@@ -1,0 +1,8 @@
+
+<super-tabs #mainTabs tabsHighlight="true" tabsPlacement="bottom" [selectedTabIndex]="indexToSelect" (tabSelect)="tabSelected($event)">
+  <super-tab [root]="tabFeed" icon="md-paper"></super-tab>
+  <super-tab [root]="tabLearn" icon="md-bulb"></super-tab>
+  <super-tab [root]="tabProfile" icon="person"></super-tab>
+  <super-tab [root]="tabContacts" icon="people"></super-tab>
+  <super-tab [root]="tabSettings" icon="menu"></super-tab>
+</super-tabs>

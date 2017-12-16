@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Add New Category
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <table>
+    <tr>
+      <td>
+        <form submit="return false" >
+          <ion-list>
+             <ion-item>
+               <ion-label floating>Title</ion-label>
+                  <ion-input type="text" [(ngModel)]="category.title" name="title"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label floating>Description</ion-label>
+                  <ion-textarea elastic [(ngModel)]="category.description" name="description"></ion-textarea>
+                </ion-item>
+                <ion-item>
+                  <ion-label floating>Color</ion-label>
+                  <ion-input type="text" [(ngModel)]="category.color" name="color" ></ion-input>
+                </ion-item>
+                <!--<ion-item>-->
+                  <!--<ion-label>Is Active</ion-label>-->
+                  <!--<ion-radio value="false" [disabled]="true"></ion-radio>-->
+                <!--</ion-item>-->
+                <!--<ion-item>-->
+                  <!--<ion-label>Deleted</ion-label>-->
+                  <!--<ion-radio value="false" [disabled]="true"></ion-radio>-->
+                <!--</ion-item>-->
+
+          </ion-list>
+
+        </form>
+      </td>
+    </tr>
+    <tr valign="bottom">
+      <div padding>
+         <button ion-button  outline class="le-btn" (tap)="AddNewCategory()">
+            Save New Category
+        </button>
+      </div>
+    </tr>
+  </table>
+</ion-content>
+

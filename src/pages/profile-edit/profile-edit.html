@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Profile Edit</ion-title>
+    <ion-buttons end>
+      <button ion-button color="royal" (tap)="saveProfile()" *ngIf="isSelf">
+        Save
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col col-lg-8 push-lg-2 col-md-10 push-lg-1>
+        <ion-list *ngIf="!loading">
+          <ion-item-divider color="light"><h2>Public Profile Info</h2></ion-item-divider>
+          <div>
+
+          </div>
+          <!-- mobile picture upload-->
+          <ion-item *ngIf="!desktopMode" (tap)="getPicture()">
+            <ion-avatar item-left>
+              <img style="object-fit: cover;" *ngIf="profileImagePreview" [src]="profileImagePreview" />
+              <img Image style="object-fit: cover;" *ngIf="!profileImagePreview" [imageSrc]="user.profile_image" [resize]="'100x100'" [type]="'avatar'"  />
+            </ion-avatar>
+            <ion-icon name="camera"></ion-icon> &nbsp;
+            Profile Picture
+          </ion-item>
+
+          <!--desktop picture upload, the hidden input is all the way at the end, outside of content -->
+          <ion-item *ngIf="desktopMode" (tap)="focusImageInput()">
+            <ion-avatar item-left>
+              <img Image style="object-fit: cover;" *ngIf="!profileImagePreview" [imageSrc]="user.profile_image" [resize]="'100x100'" [type]="'avatar'"  />
+              <img style="object-fit: cover;" *ngIf="profileImagePreview" [src]="profileImagePreview" />
+            </ion-avatar>
+            <span *ngIf="user.profile_image || profileImagePreview">Change </span> Profile Picture
+
+          </ion-item>
+
+
+          <ion-item>
+            <ion-label floating>First Name</ion-label>
+            <ion-input [(ngModel)]="user.first_name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Last Name</ion-label>
+            <ion-input [(ngModel)]="user.last_name"></ion-input>
+          </ion-item>
+
+          <ion-item (tap)="showSelectNationalityModal()">
+            <!--{{ user.nationality }}-->
+            <div floating>Nationality</div>
+            <span>{{ user.nationality }}</span>
+            <!--<ion-input [(ngModel)]="user.nationality" [disabled]="true"></ion-input>-->
+          </ion-item>
+          <ion-item (tap)="showSelectTownModal('town_of_residence')">
+            <div floating>Current City</div>
+            <span>{{ user.town_of_residence }}</span>
+          </ion-item>
+          <ion-item-divider color="light"><h2>Personal Info</h2></ion-item-divider>
+          <ion-item>
+            <ion-label floating>Email</ion-label>
+            <ion-input [(ngModel)]="user.email" [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item (tap)="changePhone()">
+            <!--{{ user.nationality }}-->
+            <div floating>Phone Number</div>
+            <span>{{ user.phone_number }}</span>
+            <!--<ion-input [(ngModel)]="user.nationality" [disabled]="true"></ion-input>-->
+          </ion-item>
+          <ion-item (tap)="showSelectTownModal('place_of_birth')">
+            <div floating>Place of Birth</div>
+            <span>{{ user.place_of_birth }}</span>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- pre>{{ user | json }}</pre -->
+</ion-content>
+
+<input *ngIf="desktopMode" #imageInput name="image" [ngModel]="leImage"
+       type="file"
+       (change)="changeImage($event)"
+       [ngModelOptions]="{standalone: true}"
+       accept="image/*" style="visibility: hidden">
+

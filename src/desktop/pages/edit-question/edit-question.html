@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+       {{section.title}}Edit Question
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <div *ngIf="!loading" padding>
+      <button ion-button clear item-right (tap)="activateAnswerForm()" style="float:right">Add Answer</button>
+      <form [formGroup]="questionForm" (ngSubmit)="editQuestion()">
+
+          <ion-item>
+            <ion-label floating> Question  </ion-label>
+            <ion-textarea fz-elastic name="question" formControlName="question"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-label> Correct Answer  </ion-label>
+            <ion-select name="correct_answer_id" formControlName="correct_answer_id">
+                <ion-option *ngFor="let answer of question.answers" value="{{answer.id}}">
+                  {{ answer.answer  }}
+                </ion-option>
+            </ion-select>
+          </ion-item>
+          <button ion-button type="submit"  outline item-right class="le-btn"  [disabled]="!questionForm.valid">
+                Submit Question
+          </button>
+      </form>
+    </div>
+
+     <div padding *ngIf="showAnswerForm">
+        <form [formGroup]="answerForm" (ngSubmit)="addAnswer()">
+          <ion-item>
+            <ion-label floating> Answer  </ion-label>
+            <ion-textarea fz-elastic name="answer" formControlName="answer"></ion-textarea>
+
+            <button ion-button clear item-right  type="submit" [disabled]="!answerForm.valid">
+               Submit Answer
+            </button>
+          </ion-item>
+        </form>
+      </div>
+
+  </ion-grid>
+</ion-content>

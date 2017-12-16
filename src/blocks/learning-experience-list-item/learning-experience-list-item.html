@@ -1,0 +1,9 @@
+<!--<div class="le-list-item-inner-container" [style.height]="height + 'px'">-->
+  <!--<img Image [resize]="'300x600'" [imageSrc]="item.image.src">-->
+  <!--<div class="le-list-item-background"></div>-->
+  <!--<div class="le-list-item-title">{{ item.title }}</div>-->
+<!--</div>-->
+<div class="aspect-ratio-box aspect-ratio-9-16" Image [resize]="'300x600'" [lazyLoad]="false" [localImage]="localImage" [imageSrc]="item.image.src" [backgroundColor]="item.image.color" [backgroundSize]="'cover'">
+  <div class="aspect-ratio-box-inside le-list-item-background"></div>
+  <div class="le-list-item-title">{{ item.title }}</div>
+</div>

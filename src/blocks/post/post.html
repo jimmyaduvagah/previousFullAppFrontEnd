@@ -1,0 +1,27 @@
+<div class="post-header">
+  <div style="width: 95%;">
+    <post-author [post]="post" [placeholder]="placeholder" (goToPostEvent)="goToPost($event)"></post-author>
+  </div>
+  <div style="width: 5%;" class="post-action-button"  (tap)="showPostActions()">
+    <ion-icon name="ios-arrow-down"></ion-icon>
+  </div>
+</div>
+
+
+<ion-item *ngIf="post.text_content && !placeholder" (tap)="goToPost({post:post})">
+<p style="white-space: normal; white-space: pre-line;">{{ post.text_content }}</p>
+</ion-item>
+
+<ion-item *ngIf="placeholder">
+<p style="color: #ddd; background-color: #ddd; width: 69%;">&nbsp;</p>
+<p style="font-size: 10%; line-height: 50%;">&nbsp;</p>
+<p style="color: #ddd; background-color: #ddd; width: 43%;">&nbsp;</p>
+
+</ion-item>
+
+<post-type-image (goToPostEvent)="goToPost($event)" [post]="post" [detail]="detail"  *ngIf="post.post_type_display == 'image'"></post-type-image>
+<!--<post-type-text [post]="post" *ngIf="post.post_type_display == 'text'"></post-type-text>-->
+<post-type-link (goToPostEvent)="goToPost($event)" [post]="post" *ngIf="post.post_type_display == 'link'" [detail]="detail"></post-type-link>
+<post-type-link-small-image (goToPostEvent)="goToPost($event)" [post]="post" *ngIf="post.post_type_display == 'link-small-image'" [detail]="detail"></post-type-link-small-image>
+<post-actions (goToPostEvent)="goToPost($event)" [post]="post" [comment]="comment" [detail]="detail" [addCommentCallback]="addCommentCallback"></post-actions>
+

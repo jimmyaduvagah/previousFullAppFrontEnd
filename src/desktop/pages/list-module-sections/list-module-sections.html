@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      {{module.title}}  Module Sections
+    </ion-title>
+     <ion-buttons end>
+      <button ion-button icon-only color="royal" (tap)="activateSort()" *ngIf = "!showSort">
+        <ion-icon name="list"></ion-icon>
+      </button>
+      <button ion-button icon-only color="royal" (tap)="deactivateSort()" *ngIf = "showSort">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <div padding>
+
+       <ion-list *ngIf="!loading" reorder="{{showSort}}" (ionItemReorder)="reorderItems($event)">
+          <div  *ngFor="let moduleSection of moduleSections" >
+
+            <ion-item *ngIf="getSectionTitle(moduleSection.content_type).includes('text')" >
+                  <h2>{{moduleSection.related.title}}</h2>
+                  <h6> Text Section </h6>
+                  <p>{{moduleSection.related.text}}</p>
+                  <button ion-button clear item-right (click)="goToEditModuleSection(moduleSection, moduleSection.object_id)">Edit</button>
+                  <button ion-button clear item-right (click)="deleteModuleSection(moduleSection.id)">Delete</button>
+            </ion-item>
+            <ion-item *ngIf="getSectionTitle(moduleSection.content_type).includes('image')" >
+                  <ion-avatar item-left >
+                    <img [src]="moduleSection.related.image.src">
+                  </ion-avatar>
+                  <h2>{{moduleSection.related.title}}</h2>
+                  <h6> Image Section </h6>
+                  <p>{{moduleSection.related.text}}</p>
+                  <button ion-button clear item-right (click)="goToEditModuleSection(moduleSection, moduleSection.object_id)">Edit</button>
+                  <button ion-button clear item-right (click)="deleteModuleSection(moduleSection.id)">Delete</button>
+            </ion-item>
+            <ion-item *ngIf="getSectionTitle(moduleSection.content_type).includes('gallery')" >
+                  <ion-avatar item-left >
+                    <img [src]="moduleSection.related.gallery.images[0].image.src">
+                  </ion-avatar>
+                  <h2>{{moduleSection.related.gallery.title}}</h2>
+                  <h6> Gallery Section </h6>
+                  <button ion-button clear item-right (click)="goToEditModuleSection(moduleSection , moduleSection.object_id)">Edit</button>
+                  <button ion-button clear item-right (click)="deleteModuleSection(moduleSection.id)">Delete</button>
+            </ion-item>
+            <ion-item *ngIf="getSectionTitle(moduleSection.content_type).includes('video')" >
+                  <h2>{{moduleSection.related.title}}</h2>
+                  <h6> Video Section </h6>
+                  <p>{{moduleSection.related.text}}</p>
+                  <button ion-button clear item-right (click)="goToEditModuleSection(moduleSection, moduleSection.object_id)">Edit</button>
+                  <button ion-button clear item-right (click)="deleteModuleSection(moduleSection.id)" >Delete</button>
+            </ion-item>
+             <ion-item *ngIf="getSectionTitle(moduleSection.content_type).includes('assessment')" >
+                   <h2>{{moduleSection.related.title}}</h2>
+                  <h6> Assessment Section </h6>
+                  <p>{{moduleSection.related.text}}</p>
+                  <button ion-button clear item-right (click)="goToEditModuleSection(moduleSection, moduleSection.object_id)">Edit</button>
+                  <button ion-button clear item-right (click)="deleteModuleSection(moduleSection.id)" >Delete</button>
+            </ion-item>
+             <ion-item *ngIf="getSectionTitle(moduleSection.content_type).includes('quiz')" >
+                  <h2>{{moduleSection.related.quiz.title }}</h2>
+                  <h6> Quiz Section </h6>
+                                    <p>{{moduleSection.related.quiz.instructions }}</p>
+                  <button ion-button clear item-right (click)="goToEditModuleSection(moduleSection, moduleSection.object_id)">Edit</button>
+                  <button ion-button clear item-right (click)="deleteModuleSection(moduleSection.id)" >Delete</button>
+            </ion-item>
+             <ion-item *ngIf="getSectionTitle(moduleSection.content_type).includes('attachment')" >
+                   <h2>{{moduleSection.related.title}}</h2>
+                  <h6> Attachment Section </h6>
+                  <p>{{moduleSection.related.text}}</p>
+                  <button ion-button clear item-right (click)="goToEditModuleSection(moduleSection, moduleSection.object_id)">Edit</button>
+                  <button ion-button clear item-right (click)="deleteModuleSection(moduleSection.id)" >Delete</button>
+            </ion-item>
+
+          </div>
+        </ion-list>
+
+        <ion-fab bottom right>
+         <button ion-fab (click)="addNewModuleSection()">
+           <ion-icon name="add"></ion-icon>
+         </button>
+       </ion-fab>
+
+    </div>
+  </ion-grid>
+
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>

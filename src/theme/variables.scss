@@ -1,0 +1,111 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/v2/theming/
+$font-path: "../assets/fonts";
+
+@import "ionic.globals";
+
+
+// Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files.
+// To view all the possible Ionic variables, see:
+// http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+
+// Tunaweza Color Variables;
+//Tunaweza Colors
+$twz-red:               rgb(191, 13, 62); //193 C
+$twz-red-dark:          rgb(155, 39, 67); //194 C
+$twz-orange:            rgb(250, 70, 22); //172 C
+$twz-orange-dark:       rgb(207, 69, 32); //173 C
+$twz-yellow:            rgb(254, 209, 65); //122 C
+$twz-yellow-dark:       rgb(255, 199, 44); //123 C
+$twz-green:             rgb(120, 214, 75); //7488 C
+$twz-green-dark:        rgb(116, 170, 80); //7489 C
+$twz-blue:              rgb(0, 71, 187); //2728 C
+$twz-blue-dark:         rgb(6, 3, 141); //2738 C
+$twz-purple:            rgb(140, 71, 153); //258 C
+$twz-purple-dark:       rgb(109, 32, 119); //259 C
+$dark:                  #222; //259 C
+$grey:                  #666666;
+
+
+$twz-card-page-bg: lightgray;
+
+
+
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+
+$colors: (
+        primary:    $twz-blue,
+        secondary:  $twz-purple,
+        danger:     #f53d3d,
+        light:      #f4f4f4,
+        dark:       $dark,
+        grey:       $grey,
+        favorite:   #69BB7B,
+        success: #69BB7B,
+        twz-red: $twz-red,
+        twz-red-dark: $twz-red-dark,
+        twz-orange: $twz-orange,
+        twz-orange-dark: $twz-orange-dark,
+        twz-yellow: $twz-yellow,
+        twz-yellow-dark: $twz-yellow-dark,
+        twz-green: $twz-green,
+        twz-green-dark: $twz-green-dark,
+        twz-blue: $twz-blue,
+        twz-blue-dark: $twz-blue-dark,
+        twz-purple: $twz-purple,
+        twz-purple-dark: $twz-purple-dark
+);
+
+// App iOS Variables
+// --------------------------------------------------
+// iOS only Sass variables can go here
+
+
+
+
+// App Material Design Variables
+// --------------------------------------------------
+// Material Design only Sass variables can go here
+
+
+
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
+
+@import "ionic.theme.default";
+
+
+// Ionicons
+// --------------------------------------------------
+// The premium icon font for Ionic. For more info, please see:
+// http://ionicframework.com/docs/v2/ionicons/
+
+@import "ionic.ionicons";
+
+
+// Fonts
+// --------------------------------------------------
+
+@import "roboto";
+@import "noto-sans";

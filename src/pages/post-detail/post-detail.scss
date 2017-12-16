@@ -1,0 +1,52 @@
+page-post-detail {
+
+  ion-content {
+    background-color: $twz-card-page-bg !important;
+  }
+
+  ion-footer, ion-toolbar {
+    transition: margin-bottom 100ms;
+  }
+
+  .card {
+    margin: 0;
+    width: 100%;
+  }
+
+  .post-image, .link-image {
+    //width: 100%;
+    //height: 220px;
+    //max-height: 220px;
+    background-position: center;
+    //background-size: cover;
+  }
+
+  .comment-item {
+    border-top: 1px solid lightgray;
+    padding-left: 4px;
+
+  }
+
+  .comment-item ion-label {
+    margin-top: 3px;
+    margin-bottom: 0;
+
+
+  }
+
+  //ion-footer textarea::-moz-placeholder{
+  //  color: #eeeeee;
+  //}
+  //
+  //ion-footer textarea:-ms-input-placeholder{
+  //  color: #eeeeee;
+  //}
+  //
+  //ion-footer textarea::-webkit-input-placeholder{
+  //  color: #eeeeee;
+  //}
+  //
+  //ion-footer textarea{
+  //  color: #ffffff;
+  //}
+}

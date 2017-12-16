@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ contact }}</ion-title>
+  </ion-navbar>
+  <ion-toolbar color="primary">
+  <ion-segment [(ngModel)]="contact" color="light">
+    <ion-segment-button value="Requests">
+      <ion-icon name="md-filing"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="Contacts">
+      <ion-icon name="ios-people"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="Search">
+      <ion-icon name="search"></ion-icon>
+    </ion-segment-button>
+  </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!--Requests Section -->
+  <ion-list *ngIf="contact == 'Requests'">
+    <!--<ion-list-header color="light">-->
+      <!--Requests-->
+    <!--</ion-list-header>-->
+
+    <ion-item *ngIf="loadingMyRequests && !refresher" text-wrap>
+      <ion-spinner item-left></ion-spinner>
+      Loading Requests...
+    </ion-item>
+    <ion-item *ngIf="!loadingMyRequests && !pending_requests.length" text-wrap>
+      <!--<ion-spinner item-left></ion-spinner>-->
+      No Pending Requests
+      <button ion-button small item-right (tap)="getMyRequests()">Refresh</button>
+    </ion-item>
+    <ion-item *ngFor="let item of pending_requests" text-wrap>
+      <ion-avatar item-left (tap)="goToUserProfile(item.from_user_obj)">
+        <img Image [imageSrc]="item.from_user_obj.profile_image" [useCache]="true" [resize]="'100x100'" />
+      </ion-avatar>
+      <h2 (tap)="goToUserProfile(item.from_user_obj)">{{ item.from_user_obj.first_name }} {{ item.from_user_obj.last_name }}</h2>
+      <h5 (tap)="goToUserProfile(item.from_user_obj)">{{ item.from_user_obj.town_of_residence }}</h5>
+        <ion-buttons item-right>
+          <button ion-button small outline icon-only color="success" [disabled]="item.loadingConnectionRequest" (tap)="acceptRequest(item)" *ngIf="!item.responded">
+            <ion-icon name="checkmark-circle"></ion-icon>
+          </button>
+          <button ion-button small outline icon-only color="danger" [disabled]="item.loadingConnectionRequest" (tap)="rejectRequest(item)" *ngIf="!item.responded">
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+          <button disabled ion-button clear small *ngIf="item.responded">{{ item.respondedText }}</button>
+        </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!--Contacts Section -->
+  <ion-list *ngIf="contact == 'Contacts'">
+    <!--<ion-list-header color="light">-->
+      <!--My Connections-->
+    <!--</ion-list-header>-->
+    <ion-item *ngIf="loadingMyFriends && !refresher" text-wrap>
+      <ion-spinner item-left></ion-spinner>
+      Loading Contacts...
+    </ion-item>
+    <ion-item *ngIf="!loadingMyFriends && !friends.length" text-wrap>
+      <!--<ion-spinner item-left></ion-spinner>-->
+      You have no contacts yet
+      <button ion-button small item-right (tap)="goToSearch()">Search</button>
+    </ion-item>
+    <ion-item *ngFor="let item of friends" (tap)="goToUserProfile(item.to_user_obj)" text-wrap>
+      <ion-avatar item-left>
+        <img Image [imageSrc]="item.to_user_obj.profile_image" [useCache]="true" [resize]="'100x100'" />
+      </ion-avatar>
+      <h2>{{ item.to_user_obj.first_name }} {{ item.to_user_obj.last_name }}</h2>
+      <h5>{{ item.to_user_obj.town_of_residence }}</h5>
+    </ion-item>
+  </ion-list>
+
+  <!--Search Section -->
+  <ion-list *ngIf="contact == 'Search'">
+    <ion-searchbar
+            [(ngModel)]="searchQuery"
+            [showCancelButton]="true"
+            (ionInput)="onInput($event)"
+            (ionCancel)="onCancel($event)">
+    </ion-searchbar>
+    <ion-item *ngIf="loadingPeople && !refresher" text-wrap>
+      <ion-spinner item-left></ion-spinner>
+      Searching...
+    </ion-item>
+    <ion-item *ngIf="!loadingPeople && !people.length && hasSearched" text-wrap>
+      No Results for <b>{{ searchQuery }}</b>
+    </ion-item>
+    <ion-item *ngFor="let person of people" text-wrap>
+      <ion-avatar item-left (tap)="goToUserProfile(person)">
+        <img Image [imageSrc]="person.profile_image" [useCache]="false" [resize]="'100x100'" />
+      </ion-avatar>
+      <div (tap)="goToUserProfile(person)">
+      <h2>{{ person.first_name }} {{ person.last_name }}</h2>
+      <h5>{{ person.town_of_residence }}</h5>
+      </div>
+      <ion-buttons item-right>
+        <button ion-button outline small *ngIf="(!person.connected && !person.pending_request)" [disabled]="person.loadingConnectionRequest" (tap)="createRequest(person)">Connect</button>
+        <button ion-button outline small *ngIf="(!person.connected && person.pending_request)" [disabled]="person.loadingConnectionRequest"  (tap)="withdrawRequest(person)">Withdraw</button>
+        <button ion-button color="dark" clear small *ngIf="(person.connected)" disabled>Connected</button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

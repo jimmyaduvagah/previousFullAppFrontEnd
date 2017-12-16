@@ -1,0 +1,171 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+        LE Dashboard
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <div padding>
+        <h3>
+          LE's Stats
+        </h3>
+        <ion-grid *ngIf="!loading">
+          <ion-row>
+            <ion-col class="col" col-12 col-lg-6 col-md-6>
+              <ion-card>
+                <ion-card-header class="le-header">
+                    Published LE's
+                </ion-card-header>
+                <ion-card-content style="text-align: center; padding: 10px">
+                  <ion-item>
+                    <h2> Number : {{leResponse.count}} </h2>
+                  </ion-item>
+                  <ion-item>
+                    <h2> Average Word Count : </h2>
+                  </ion-item>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col col-6 class="col" col-12 col-lg-6 col-md-6>
+              <ion-card>
+                <ion-card-header class="le-header">
+                    UnPublished LE's
+                </ion-card-header>
+                <ion-card-content style="text-align: center; padding: 10px">
+                  <ion-item>
+                    <h2> Number :  </h2>
+                  </ion-item>
+                  <ion-item>
+                    <h2> Average Word Count :  </h2>
+                  </ion-item>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col col-6 class="col" col-12 col-lg-12 col-md-12>
+              <ion-card>
+                <ion-card-header class="le-header">
+                    LE's Per Week
+                </ion-card-header>
+                <ion-card-content style="text-align: left; padding: 10px">
+                  <table style="list-style: none">
+                    <thead class="le-summary-thead">
+                      <th>
+                          WEEK
+                      </th>
+                      <th>
+                          FROM
+                      </th>
+                      <th>
+                          TO
+                      </th>
+                      <th>
+                           LEs
+                      </th>
+                      <th>
+                           DETAILS
+                      </th>
+
+                    </thead>
+                    <tbody class="le-summary-tbody">
+                      <tr *ngFor="let week of pubDatesWeek">
+                         <td>
+                           {{week[0]}}
+
+                         </td>
+                         <td>
+                           {{getSundayinWeek(week[0])}}
+                         </td>
+                         <td>
+                            {{getSatinWeek(week[0])}}
+                         </td>
+                         <td>
+                           {{week[1].length}}
+                         </td>
+                         <td>
+                            <button ion-button (click)="weekLes(week)">
+                               View Details
+                            </button>
+                         </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col col-6 class="col" col-12 col-lg-12 col-md-12>
+              <ion-card>
+                <ion-card-header class="le-header">
+                    LEs This Week
+                </ion-card-header>
+                <ion-card-content style="text-align: left; padding: 10px">
+                  <table style="list-style: none">
+                    <thead>
+                      <th>
+                          DAY
+                      </th>
+                      <th>
+                           LEs
+                      </th>
+                    </thead>
+                    <tbody class="le-summary-tbody">
+                      <tr *ngFor="let day of pubDatesDay; let i = index">
+                         <td *ngIf="i !== 0">
+                           {{ converttoString(day[1][0]) }}
+
+                         </td>
+                          <td *ngIf="i !== 0">
+                           {{day[1].length}}
+                         </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+    </div>
+    <!--
+    <div padding>
+          <ion-searchbar (ionInput)="filterLes($event)" placeholder="Learning Experiences"></ion-searchbar>
+          <ion-grid *ngIf="!loading">
+            <ion-row>
+
+              <ion-col class="col" col-12 col-lg-4 col-md-6 *ngFor="let le of leResponse.results">
+                <ion-card>
+                  <ion-card-header class="le-header">
+                    <h2>{{le.title}}</h2>
+                  </ion-card-header>
+                  <ion-card-content class="le-content">
+                    <ion-avatar class="le-image" [ngStyle]="{'background-image':'url(' +le.image.src +')'}">
+                    </ion-avatar>
+                    <div style="text-align: center; padding: 5px">
+                      <p>
+                        <strong>
+                            Author(s):
+                        </strong>
+                      </p>
+                      <ul *ngFor="let author of le.authors_json" style="list-style: none;padding: 0px; ">
+                          <li>{{author.name}}</li>
+                      </ul>
+                      <p>
+                        {{le.category}}
+                      </p>
+                    </div>
+
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    -->
+  </ion-grid>
+</ion-content>

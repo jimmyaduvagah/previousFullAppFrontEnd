@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      {{module.title}} : Add Quiz Section
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <div>
+      <div padding *ngIf="!quizAdded">
+      <h1> Add New Quiz</h1>
+          <form [formGroup]="quizForm" (ngSubmit)="addQuiz()">
+            <ion-item>
+              <ion-label floating>Title </ion-label>
+              <ion-input type="text" name="title" formControlName="title"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label floating> Instructions  </ion-label>
+              <ion-textarea fz-elastic name="instructions" formControlName="instructions"></ion-textarea>
+            </ion-item>
+
+            <div padding>
+                <button ion-button type="submit"  outline class="le-btn"  [disabled]="!quizForm.valid">
+                  Add Quiz
+                </button>
+            </div>
+          </form>
+      </div>
+
+      <div *ngIf="quizAdded">
+        <div padding>
+            <ion-item>
+              <h5>
+                {{quiz.title}}
+              </h5>
+              <p>
+                {{quiz.instructions}}
+              </p>
+              <button color="secondary" ion-button clear item-right (click) = "activateQuestions()">
+                 Add Quiz Question
+              </button>
+                <ion-item  *ngFor="let question of quiz_questions; let i = index" [attr.data-index]="i" >
+                  <h6>{{question.question}}</h6>
+                  <button ion-button clear item-right (click) = "removeQuestion(quiz_questions,i)">
+                            Delete
+                  </button>
+                  <button ion-button clear item-right (click)="activateAnswer(i)"> Add Anwser </button>
+
+                    <ion-list radio-group [(ngModel)]="quiz_questions[i]['correct']">
+                        <i>( select the correct answer )</i>
+                        <ion-item *ngFor="let answer of question.answers; let a = index" [attr.data-index]="a">
+                          <ion-radio item-left value="{{answer.answer}}"></ion-radio>
+                          <ion-label>{{answer.answer}}</ion-label>
+                          <button ion-button clear item-right (click) = "removeAnswer(quiz_questions[i]['answers'], i, a)">
+                            Delete
+                         </button>
+                        </ion-item>
+                    </ion-list>
+                </ion-item>
+
+            </ion-item>
+        </div>
+
+        <div padding *ngIf="answerActive">
+          <form [formGroup]="answerForm" (ngSubmit)="addAnswer()">
+            <ion-item>
+              <ion-label floating> Answer  </ion-label>
+              <ion-textarea fz-elastic name="answer" formControlName="answer"></ion-textarea>
+
+              <button ion-button clear item-right  type="submit" [disabled]="!answerForm.valid">
+                 Submit Answer
+              </button>
+            </ion-item>
+          </form>
+        </div>
+
+
+        <div padding *ngIf="questionsActive">
+          <form [formGroup]="questionForm" (ngSubmit)="addQuestion()">
+            <ion-item>
+              <ion-label floating> Question  </ion-label>
+              <ion-textarea fz-elastic name="question" formControlName="question"></ion-textarea>
+              <button ion-button type="submit"  clear item-right class="le-btn"  [disabled]="!questionForm.valid">
+                  Submit Question
+                </button>
+            </ion-item>
+          </form>
+        </div>
+
+      <button ion-button type="button"  outline class="le-btn"  (click) = 'submitQuiz()'>
+                  Submit Quiz
+      </button>
+
+
+      </div>
+
+  </div>
+</ion-content>

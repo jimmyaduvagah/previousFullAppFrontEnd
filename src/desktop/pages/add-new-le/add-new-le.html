@@ -1,0 +1,82 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+       Add New Learning Experience
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-grid fixed>
+    <form [formGroup]="leForm" (ngSubmit)="uploadLe()" *ngIf="!loading">
+    <ion-item>
+      <ion-label stacked>Title </ion-label>
+      <ion-input type="text" name="title" formControlName="title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Description </ion-label>
+      <ion-textarea elastic fz-elastic name="description" formControlName="description"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Category </ion-label>
+      <ion-select [ngModel]="category_id"  (ngModelChange)="setCategory($event)" [ngModelOptions]="{standalone: true}" >
+        <ion-option *ngFor="let cat of categoryResponse.results" value="{{cat.id}}">
+          {{cat.title}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-list>
+        <label>Author </label>
+        <ion-item *ngFor="let author of leAuthor let l = index ">
+          {{author.name}}
+          <button item-right ion-button icon-only color="royal" (tap)="removeAuthor(l)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-list>
+      <button item-right ion-button (tap)="selectAuthor()">
+        Select Author
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>State </ion-label>
+      <ion-select name="state" formControlName="state">
+        <ion-option *ngFor="let state of le_states" value="{{state.value}}">
+          {{state.title}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <label stacked>LE Image </label>
+      <input [(ngModel)]="leimage"  accept="image/*" type="file" (change)="changeImage($event)" [ngModelOptions]="{standalone: true}">
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>  Image Intellectual Property </ion-label>
+      <ion-select name="image_ip" formControlName="image_ip">
+        <ion-option value="true">
+          Yes
+        </ion-option>
+        <ion-option value="false">
+          No
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked> Intro Video's Vimeo ID </ion-label>
+      <ion-input formControlName="vimeo_id"></ion-input>
+    </ion-item>
+
+    <button ion-button type="submit"  outline class="le-btn"  [disabled]="!leForm.valid">
+      Save & Proceed
+    </button>
+  </form>
+  </ion-grid>
+</ion-content>

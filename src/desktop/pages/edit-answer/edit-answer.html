@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+       {{section.title}}Edit Answer
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <div *ngIf="!loading" padding>
+
+      <form [formGroup]="answerForm" (ngSubmit)="editAnswer()">
+          <ion-item>
+            <ion-label floating> Question  </ion-label>
+            <ion-textarea fz-elastic name="answer" formControlName="answer"></ion-textarea>
+          </ion-item>
+          <button ion-button type="submit"  outline item-right class="le-btn"  [disabled]="!answerForm.valid">
+                Submit Answer
+          </button>
+
+        </form>
+    </div>
+  </ion-grid>
+</ion-content>

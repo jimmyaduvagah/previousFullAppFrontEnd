@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <!--<button ion-button menuToggle>-->
+      <!--<ion-icon name="menu"></ion-icon>-->
+    <!--</button>-->
+    <ion-title>More Tunaweza</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <!--<ion-item (tap)="goToMyProfile()">-->
+      <!--<ion-avatar item-left *ngIf="userImage">-->
+        <!--<img Image [type]="'avatar'" [imageSrc]="userImage" [resize]="'100x100'" style="object-fit: cover;">-->
+      <!--</ion-avatar>-->
+      <!--My Profile-->
+    <!--</ion-item>-->
+    <ion-item (tap)="goToNotifications()">
+      <ion-icon name="notifications-outline" item-left></ion-icon>
+      Notifications
+    </ion-item>
+    <ion-item (tap)="comingSoon('Messages')">
+      <ion-icon name="mail" item-left></ion-icon>
+      <ion-label>Messages</ion-label>
+    </ion-item>
+    <ion-item *ngIf="_sessionService.user && _sessionService.user.is_staff" (tap)="goToDesktopComponent()">
+      <ion-icon name="md-bulb" item-left></ion-icon>
+      Learning Experience Creation
+    </ion-item>
+    <ion-item (tap)="comingSoon('Manage Offline LEs')">
+      <ion-icon name="cloud-download" item-left></ion-icon>
+      Manage Offline LEs
+    </ion-item>
+    <ion-item (tap)="comingSoon('Manage My Invitations')">
+      <ion-icon name="ios-send" item-left></ion-icon>
+      Manage My Invitations
+    </ion-item>
+    <ion-item (tap)="comingSoon('Help')">
+      <ion-icon name="help" item-left></ion-icon>
+      Help
+    </ion-item>
+    <ion-item (tap)="goTo(settingsPage)">
+      <ion-icon name="settings" item-left></ion-icon>
+      Settings
+    </ion-item>
+    <ion-item (tap)="goTo(changePasswordPage)">
+      <ion-icon name="key" item-left></ion-icon>
+      Change Password
+    </ion-item>
+    <ion-item (tap)="goTo(bugReportingPage)">
+      <ion-icon name="bug" item-left></ion-icon>
+      Features & Bugs
+    </ion-item>
+  </ion-list>
+
+  <!--<pre>{{user | json}}</pre>-->
+
+</ion-content>

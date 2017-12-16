@@ -1,0 +1,118 @@
+<!--<ion-header>-->
+  <!--<ion-navbar color="primary">-->
+    <!--<button ion-button menuToggle>-->
+      <!--<ion-icon name="menu"></ion-icon>-->
+    <!--</button>-->
+    <!--<ion-title *ngIf="!loading">{{ leModule.sections[currentSectionIndex].title }}</ion-title>-->
+  <!--</ion-navbar>-->
+<!--</ion-header>-->
+
+<ion-content [fullscreen]="true">
+  <!--<div *ngIf="!loading" style="position: relative;"><div Image-->
+         <!--[imageSrc]="leModule.image.src"-->
+         <!--class="main-image"-->
+         <!--[autoSetHeight]="true"-->
+         <!--[imageSize]="leModule.image"-->
+         <!--#mainImage-->
+         <!--[@mainImage]="mainImageShowing"-->
+         <!--&gt;</div>-->
+  <!--</div>-->
+  <div *ngIf="!loading" (tap)="toggleFab($event)" (touchstart)="pan($event, 'start')" (touchmove)="pan($event, 'move')" (touchend)="pan($event, 'end')">
+    <div #mainSlides class="le-section-pages">
+      <!--[hidden]="(currentSectionIndex == index)?false:true"-->
+        <learning-experience-section *ngFor="let section of leModule.sections; let index = index"
+          (goToList)="goBack()"
+          (goToNext)="goBack({action:'next'})"
+          [section]="section"
+          [scrollable]="!(section.type=='image' && index==0)"
+          [index]="index"
+          [isLower]="index < currentSectionIndex"
+          [isHigher]="index > currentSectionIndex"
+          [currentIndex]="currentSectionIndex"
+          [slideDeltaX]="slideDeltaX"
+          [isNext]="currentSectionIndex+1 == index"
+          [isPrev]="currentSectionIndex-1 == index"
+          [visible]="currentSectionIndex == index"></learning-experience-section>
+    </div>
+
+  </div>
+
+  <!--<ion-fab left top [hidden]="hideFab">-->
+    <!--<button ion-fab (tap)="goToSection(0)"><ion-icon name="arrow-dropleft"></ion-icon>-->
+    <!--</button>-->
+  <!--</ion-fab>-->
+  <!--<ion-fab right top [hidden]="hideFab">-->
+    <!--<button ion-fab (tap)="goToSection(sectionsCount-1)"><ion-icon name="arrow-dropright"></ion-icon>-->
+    <!--</button>-->
+  <!--</ion-fab>-->
+  <!--<ion-fab left bottom [hidden]="hideFab">-->
+    <!--<button ion-fab (tap)="showComments()"><ion-icon name="chatboxes"></ion-icon>-->
+      <!--<ion-badge item-right>10</ion-badge>-->
+    <!--</button>-->
+  <!--</ion-fab>-->
+  <!--<ion-fab right bottom [hidden]="hideFab">-->
+    <!--<button ion-fab color="primary"><ion-icon name="arrow-dropleft"></ion-icon></button>-->
+    <!--<ion-fab-list side="left">-->
+      <!--<button ion-fab (tap)="showComments()"><ion-icon name="chatboxes"></ion-icon>-->
+        <!--&lt;!&ndash;<ion-badge item-right>10</ion-badge>&ndash;&gt;-->
+      <!--</button>-->
+      <!--<button ion-fab (tap)="bookmarkSection()"><ion-icon name="bookmark"></ion-icon></button>-->
+      <!--<button ion-fab (tap)="goBack()"><ion-icon name="arrow-back"></ion-icon></button>-->
+    <!--</ion-fab-list>-->
+  <!--</ion-fab>-->
+
+
+  <!--<ion-fab left top [hidden]="hideFab">-->
+  <!--<button ion-fab (tap)="slideDownTest()"><ion-icon name="arrow-dropdown"></ion-icon>-->
+  <!--</button>-->
+  <!--</ion-fab>-->
+  <!--<ion-fab right top [hidden]="hideFab">-->
+  <!--<button ion-fab (tap)="slideDownReleaseTest()"><ion-icon name="arrow-dropup"></ion-icon>-->
+  <!--</button>-->
+  <!--</ion-fab>-->
+
+</ion-content>
+
+<ion-footer no-border>
+  <!--<ion-toolbar>-->
+    <!--<ion-buttons left>-->
+      <!--<button ion-button (tap)="prevSection()">Previous</button>-->
+    <!--</ion-buttons>-->
+    <!--<ion-buttons end>-->
+      <!--<button ion-button (tap)="nextSection()">Next</button>-->
+    <!--</ion-buttons>-->
+  <!--</ion-toolbar>-->
+  <ion-grid class="le-footer">
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-only block clear small color="primary" (tap)="prevSection()">
+          <ion-icon name="ios-arrow-back"></ion-icon>
+        </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button icon-only block clear small color="primary" (tap)="bookmarkSection()">
+          <ion-icon name="bookmark"></ion-icon>
+        </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button icon-only block clear small color="primary" (tap)="showComments()">
+          <ion-icon name="chatboxes"></ion-icon>
+        </button>
+      </ion-col>
+
+
+      <ion-col>
+        <button ion-button icon-only block clear small color="primary" (tap)="nextSection()">
+          <ion-icon name="ios-arrow-forward"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="progress-bar-container" style="margin-bottom:0; position: absolute; bottom: -6px; width:100%;">
+    <div class="progress-bar" [style.width]="currentProgress()"></div>
+  </div>
+
+
+</ion-footer>

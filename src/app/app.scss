@@ -1,0 +1,471 @@
+// http://ionicframework.com/docs/v2/theming/
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+$break-large: 768px;
+
+@media screen and (min-width: $break-large) {
+  .scroll-content {
+    overflow-y: auto;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// fullscreen pages and transparent nav bar shadow
+ion-navbar[transparent] {
+  button {
+    text-shadow: 2px 2px 2px rgba(0,0,0,.3);
+  }
+}
+
+ion-content[fullscreen] {
+  .fixed-content, .scroll-content {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+// Auto growing center flexbox
+// From this JS Fiddle... https://jsfiddle.net/MadLittleMods/LmYay/
+.flexbox-parent {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: flex-start; /* align items in Main Axis */
+  align-items: stretch; /* align items in Cross Axis */
+  align-content: stretch; /* Extra space in Cross Axis */
+
+  //background: rgba(255, 255, 255, .1);
+}
+
+.flexbox-item {
+  //padding: 8px;
+}
+
+.flexbox-item-grow {
+  flex: 1; /* same as flex: 1 1 auto; */
+}
+
+.flexbox-item.header {
+  //background: rgba(255, 0, 0, .1);
+}
+
+.flexbox-item.footer {
+  //background: rgba(0, 255, 0, .1);
+}
+
+.flexbox-item.content {
+  //background: rgba(0, 0, 255, .1);
+}
+
+.fill-area {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: flex-start; /* align items in Main Axis */
+  align-items: stretch; /* align items in Cross Axis */
+  align-content: stretch; /* Extra space in Cross Axis */
+
+}
+
+.fill-area-content {
+  //background: rgba(0, 0, 0, .3);
+  //border: 1px solid #000000;
+
+  /* Needed for when the area gets squished too far and there is content that can't be displayed */
+  overflow: auto;
+}
+
+// fix for super-tabs on ios
+.md ion-nav > .ion-page > .toolbar.statusbar-padding:first-child,
+.md ion-nav > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.md ion-tab > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.md ion-tabs > .ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child,
+.md super-tab > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.md super-tabs > .ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child,
+.md ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child,
+.md ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child {
+  padding-top: calc(20px + 4px);
+  min-height: calc(56px + 20px);
+}
+
+.ios ion-nav > .ion-page > .toolbar.statusbar-padding:first-child,
+.ios ion-nav > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.ios ion-tab > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.ios ion-tabs > .ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child,
+.ios super-tab > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.ios super-tabs > .ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child,
+.ios ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child,
+.ios ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child {
+  padding-top: calc(20px + 4px);
+  min-height: calc(44px + 20px);
+}
+
+.chip-md > .chip-label {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+
+// Our Markdown Code/Pre formatting
+pre {
+  //border-radius: 2px;
+  overflow-x: auto;
+  margin: 0;
+}
+
+.codehilite .gu, .codehilite .nc, .codehilite .nn {
+  text-decoration: underline
+}
+
+.codehilite .hll {
+  background-color: #404040
+}
+
+.codehilite {
+  //padding: 2px 4px;
+  padding:10px;
+  border-radius: 4px;
+  font-size: 95%;
+}
+
+.codehilite,
+.codehilite code{
+  background: #202020;
+  color: #d0d0d0;
+  font-weight: normal;
+  //padding: 2px 4px;
+  //font-size: 90%;
+}
+
+code {
+ color: $twz-purple-dark;
+  font-weight: bold;
+}
+
+.codehilite .c {
+  color: #999;
+  font-style: italic
+}
+
+.codehilite .err {
+  color: #a61717;
+  background-color: #e3d2d2
+}
+
+.codehilite .esc, .codehilite .g {
+  color: #d0d0d0
+}
+
+.codehilite .k {
+  color: #6ab825;
+  font-weight: 700
+}
+
+.codehilite .l, .codehilite .n, .codehilite .o, .codehilite .p, .codehilite .x {
+  color: #d0d0d0
+}
+
+.codehilite .ch, .codehilite .cm {
+  color: #999;
+  font-style: italic
+}
+
+.codehilite .cp {
+  color: #cd2828;
+  font-weight: 700
+}
+
+.codehilite .c1, .codehilite .cpf {
+  color: #999;
+  font-style: italic
+}
+
+.codehilite .cs {
+  color: #e50808;
+  font-weight: 700;
+  background-color: #520000
+}
+
+.codehilite .gd {
+  color: #d22323
+}
+
+.codehilite .ge {
+  color: #d0d0d0;
+  font-style: italic
+}
+
+.codehilite .gr {
+  color: #d22323
+}
+
+.codehilite .gh {
+  color: #fff;
+  font-weight: 700
+}
+
+.codehilite .gi {
+  color: #589819
+}
+
+.codehilite .go {
+  color: #ccc
+}
+
+.codehilite .gp {
+  color: #aaa
+}
+
+.codehilite .gs {
+  color: #d0d0d0;
+  font-weight: 700
+}
+
+.codehilite .gu {
+  color: #fff
+}
+
+.codehilite .gt {
+  color: #d22323
+}
+
+.codehilite .kc, .codehilite .kd, .codehilite .kn {
+  color: #6ab825;
+  font-weight: 700
+}
+
+.codehilite .kp {
+  color: #6ab825
+}
+
+.codehilite .kr, .codehilite .kt {
+  color: #6ab825;
+  font-weight: 700
+}
+
+.codehilite .ld {
+  color: #d0d0d0
+}
+
+.codehilite .m {
+  color: #3677a9
+}
+
+.codehilite .s {
+  color: #ed9d13
+}
+
+.codehilite .na {
+  color: #bbb
+}
+
+.codehilite .nb {
+  color: #24909d
+}
+
+.codehilite .nc {
+  color: #447fcf
+}
+
+.codehilite .no {
+  color: #40ffff
+}
+
+.codehilite .nd {
+  color: orange
+}
+
+.codehilite .ni {
+  color: #d0d0d0
+}
+
+.codehilite .ne {
+  color: #bbb
+}
+
+.codehilite .nf {
+  color: #447fcf
+}
+
+.codehilite .nl {
+  color: #d0d0d0
+}
+
+.codehilite .nn {
+  color: #447fcf
+}
+
+.codehilite .nx, .codehilite .py {
+  color: #d0d0d0
+}
+
+.codehilite .nt {
+  color: #6ab825;
+  font-weight: 700
+}
+
+.codehilite .nv {
+  color: #40ffff
+}
+
+.codehilite .ow {
+  color: #6ab825;
+  font-weight: 700
+}
+
+.codehilite .w {
+  color: #666
+}
+
+.codehilite .mb, .codehilite .mf, .codehilite .mh, .codehilite .mi, .codehilite .mo {
+  color: #3677a9
+}
+
+.codehilite .dl, .codehilite .s2, .codehilite .sa, .codehilite .sb, .codehilite .sc, .codehilite .sd, .codehilite .se, .codehilite .sh, .codehilite .si {
+  color: #ed9d13
+}
+
+.codehilite .sx {
+  color: orange
+}
+
+.codehilite .s1, .codehilite .sr, .codehilite .ss {
+  color: #ed9d13
+}
+
+.codehilite .bp {
+  color: #24909d
+}
+
+.codehilite .fm {
+  color: #447fcf
+}
+
+.codehilite .vc, .codehilite .vg, .codehilite .vi, .codehilite .vm {
+  color: #40ffff
+}
+
+.codehilite .il {
+  color: #3677a9
+}
+
+
+// Aspect Ratio stuff
+.aspect-ratio-box {
+  height: 0;
+  overflow: hidden;
+  //background: white;
+  position: relative;
+
+  &.aspect-ratio-16-9 {
+    padding-top: 56.25%;
+  }
+
+  &.aspect-ratio-9-16 {
+    padding-top: 177.78%;
+  }
+
+  &.aspect-ratio-1-1 {
+    padding-top: 100%;
+  }
+
+}
+.aspect-ratio-box-inside {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+}
+
+.progress-bar-container {
+  height: 14px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  background-color: rgba(0,0,0,.1);
+  border-radius: 0;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.1)
+}
+
+.progress-bar {
+  float: left;
+  width: 0;
+  height: 100%;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+  text-align: center;
+  background-color: $twz-orange;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+  -webkit-transition: width .6s ease;
+  -o-transition: width .6s ease;
+  transition: width .6s ease;
+}
+
+div[floating] {
+  color: #999;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+ion-avatar img {
+  object-fit: cover;
+}
+
+ion-card[keep-border].card-md .item-md.item-block .item-inner {
+  border: inherit;
+  border-bottom: 1px solid $list-md-border-color;
+
+}
+
+.fixed-width-font {
+  font-family: "Lucida Console", Monaco, "Courier New", Courier, monospace;
+  textarea {
+    font-size: 90%;
+    line-height: 1.4;
+  }
+}
+
+
+*[font-bold] {
+  font-weight: bold;
+}
+
+*[keep-whitespace] {
+  white-space: pre-wrap;
+}
+
+.modal-fullscreen .modal-wrapper {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}

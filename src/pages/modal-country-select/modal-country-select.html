@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Select A Country</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list scrollbar-x="false" scrollbar-y="false">
+    <ion-searchbar
+      [ngModel]="searchText"
+      (ngModelChange)="inputChanged($event)"
+      (ionCancel)="onCancel($event)">
+    </ion-searchbar>
+    <ion-item *ngFor="let item of items" (tap)="select(item)">
+      <img src="data:image/png;base64,{{item.flag}}" item-left />
+      <ion-label class="label">{{ item.name }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

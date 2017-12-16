@@ -1,0 +1,60 @@
+page-setup-wizard {
+
+  background-color: #272734;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#29293c+13,040008+99 */
+  //background: rgb(41,41,60); /* Old browsers */
+  //background: -moz-linear-gradient(-45deg, rgba(41,41,60,1) 13%, rgba(4,0,8,1) 99%); /* FF3.6-15 */
+  //background: -webkit-linear-gradient(-45deg, rgba(41,41,60,1) 13%,rgba(4,0,8,1) 99%); /* Chrome10-25,Safari5.1-6 */
+  //background: linear-gradient(135deg, rgba(41,41,60,1) 13%,rgba(4,0,8,1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#29293c', endColorstr='#040008',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  color: whitesmoke;
+
+  .content, content-md {
+    background-color: #272734;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#29293c+13,040008+99 */
+    //background: rgb(41,41,60); /* Old browsers */
+    //background: -moz-linear-gradient(-45deg, rgba(41,41,60,1) 13%, rgba(4,0,8,1) 99%); /* FF3.6-15 */
+    //background: -webkit-linear-gradient(-45deg, rgba(41,41,60,1) 13%,rgba(4,0,8,1) 99%); /* Chrome10-25,Safari5.1-6 */
+    //background: linear-gradient(135deg, rgba(41,41,60,1) 13%,rgba(4,0,8,1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#29293c', endColorstr='#040008',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    color: whitesmoke;
+  }
+
+  ion-item, ion-item.item-md {
+    background: inherit;
+    color: inherit;
+    padding-right: 16px;
+  }
+
+  .profile-image-preview {
+    width: 300px;
+    height: 300px;
+    border: 1px solid black;
+    object-fit: cover;
+  }
+
+  .rounded-border {
+    border: 1px solid lightgray;
+    border-radius: 20px;
+  }
+
+  .rounded-border-input {
+    width: auto;
+    position: relative;
+    display: inline-block;
+    padding: 5px 10px 5px 10px !important;
+  }
+
+  .setup-input-group input{
+    &.text-input-md {
+      margin: 0;
+      padding: 13px 8px;
+    }
+    border-bottom: 1px solid #dedede;
+
+    &:focus {
+      border-color: $twz-orange;
+    }
+  }
+
+}

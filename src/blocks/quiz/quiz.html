@@ -1,0 +1,23 @@
+<div padding *ngIf="section.quiz.instructions.length > 0" [innerHtml]="section.quiz.instructions_html"></div>
+<ion-card *ngFor="let question of section.quiz.quiz_questions" class="quiz-question">
+  <ion-card-header >
+    {{ question.question }}
+  </ion-card-header>
+  <ion-list>
+      <button ion-item text-wrap
+              *ngFor="let answer of question.answers"
+              (tap)="answerTapped($event, question, answer)"
+              [ngClass]="{
+                'correct': ( userAnswers[question.id]['chosen'][0] == answer.id && userAnswers[question.id]['chosen'][0] == question.correct_answer),
+                'wrong': (userAnswers[question.id]['chosen'][0] == answer.id && userAnswers[question.id]['chosen'][0] != null && userAnswers[question.id]['chosen'][0] != question.correct_answer),
+                'untouched': userAnswers[question.id]['chosen'] == null
+              }"
+
+      >
+        <ion-icon
+          item-left
+          [name]="(userAnswers[question.id]['chosen'][0] == answer.id)?'radio-button-on':'radio-button-off'"></ion-icon>
+        {{ answer.answer }}
+      </button>
+  </ion-list>
+</ion-card>

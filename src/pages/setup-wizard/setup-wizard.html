@@ -1,0 +1,141 @@
+<!--<ion-header>-->
+  <!--<ion-navbar color="primary">-->
+    <!--<ion-title>Profile Wizard</ion-title>-->
+  <!--</ion-navbar>-->
+<!--</ion-header>-->
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col col-lg-6 push-lg-3 col-md-8 push-lg-2>
+  <ion-slides *ngIf="!loading" initialSlide="0" (ionSlideDidChange)="slideDidChange($event)" (ionSlideWillChange)="slideWillChange($event)">
+
+    <ion-slide>
+      <img src="assets/imgs/twz-full-color-shadow.png" style="max-height: 200px;" />
+      <h2>Welcome to Tunaweza!</h2>
+      <p>Lets get your profile set up!</p>
+    </ion-slide>
+
+
+    <ion-slide>
+      <h2>Mobile Number</h2>
+      <p style="opacity:.75;">This will be verified via SMS later</p>
+      <ion-grid>
+        <ion-row class="setup-input-group">
+          <!--<ion-col col-1 (tap)="showSelectCountryModal()">-->
+            <!--<img *ngIf="selectedPhoneCountry" src="data:image/png;base64,{{ selectedPhoneCountry.flag }}" style="margin-top: 13px;" />-->
+          <!--</ion-col>-->
+          <ion-col col-4 style="text-align: right;" (tap)="showSelectCountryModal($event, countryCodeInput)">
+            <ion-label stacked>Country</ion-label>
+            <img *ngIf="selectedPhoneCountry" src="data:image/png;base64,{{ selectedPhoneCountry.flag }}" style="width:23%;" />
+            <ion-input disabled #countryCodeInput (ionFocus)="showSelectCountryModal($event, countryCodeInput);" [(ngModel)]="user.phone_country_dial_code" style="width:70%; display: inline-block;"></ion-input>
+          </ion-col>
+          <ion-col col-8>
+            <ion-label stacked>Phone Number</ion-label>
+            <ion-input [disabled]="!selectedPhoneCountry" [placeholder]="selectedPhoneCountry ? 'Enter your number':'Select Country' " [(ngModel)]="user.phone_number" (ngModelChange)="validateData()" type="tel"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-slide>
+
+    <ion-slide>
+      <h2>Birth and Residence Info</h2>
+      <ion-item>
+        <ion-label floating>Date of Birth</ion-label>
+        <ion-datetime displayFormat="MM/DD/YYYY"
+                    [(ngModel)]="user.date_of_birth" (ngModelChange)="validateData()">
+
+      </ion-datetime>
+      </ion-item>
+      <ion-item (tap)="selectNationality($event, nationalityInput)" >
+        <ion-label floating>Nationality</ion-label>
+        <ion-input disabled #nationalityInput (ionFocus)="selectNationality($event, nationalityInput)" [(ngModel)]="user.nationality"></ion-input>
+      </ion-item>
+
+      <ion-item (tap)="selectTownOfBirth($event, townOfBirthInput)">
+        <ion-label floating>Birthplace</ion-label>
+        <ion-input disabled #townOfBirthInput (ionFocus)="selectTownOfBirth($event, townOfBirthInput)"  [(ngModel)]="user.place_of_birth"></ion-input>
+      </ion-item>
+
+      <ion-item (tap)="selectTownOfResidence($event, townOfResidenceInput)">
+        <ion-label floating>Town of Residence</ion-label>
+        <ion-input disabled #townOfResidenceInput (ionFocus)="selectTownOfResidence($event, townOfResidenceInput)" [(ngModel)]="user.town_of_residence"></ion-input>
+      </ion-item>
+
+
+
+    </ion-slide>
+
+    <ion-slide>
+      <h2>Gender and Profile Picture</h2>
+      <ion-item>
+        <ion-label>Gender</ion-label>
+        <ion-select [(ngModel)]="user.gender" (ngModelChange)="validateData();">
+          <ion-option [value]="'FM'">Female</ion-option>
+          <ion-option [value]="'MA'">Male</ion-option>
+        </ion-select>
+      </ion-item>
+      <br />
+      <div>
+        <img class="profile-image-preview" [src]="(profileImagePreview)?profileImagePreview:defaultUserImage" />
+      </div>
+      <div *ngIf="!desktopMode">
+        <button ion-button outline (tap)="getPicture()">
+          <ion-icon item-left name="camera"></ion-icon> &nbsp;
+          Choose Picture
+        </button>
+      </div>
+
+      <div *ngIf="desktopMode">
+        <button ion-button outline (tap)="focusImageInput()">
+          <ion-icon item-left name="camera"></ion-icon> &nbsp;
+          Choose Picture
+        </button>
+      </div>
+
+    </ion-slide>
+
+    <ion-slide>
+      <h1>All done!</h1>
+      <h3>Thank you for adding your basic profile information!</h3>
+      <h3>Please wait while we complete your account setup.</h3>
+      <ion-spinner *ngIf="saving"></ion-spinner>
+      <button ion-button outline text="Save" *ngIf="failedToSaveUser" (tap)="save()">Retry Saving</button>
+    </ion-slide>
+  </ion-slides>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<input *ngIf="desktopMode" #imageInput name="image" [ngModel]="leImage"
+       type="file"
+       (change)="changeImage($event)"
+       [ngModelOptions]="{standalone: true}"
+       accept="image/*" style="visibility: hidden">
+
+<ion-footer no-border>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-only clear (tap)="prev()"  *ngIf="!hideNavBtns">
+          <ion-icon name="ios-arrow-back"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col>
+        &nbsp;
+      </ion-col>
+      <ion-col text-right>
+        <button ion-button clear (tap)="next()" [disabled]="disabledNextBtn"  *ngIf="!hideNavBtns">
+          Next &nbsp;
+          <ion-icon item-right name="ios-arrow-forward"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div *ngIf="slides && !loading && afterViewInit" class="progress-bar-container" style="margin-bottom:0; position: absolute; bottom: -6px; width:100%;">
+    <div class="progress-bar" [style.width]="currentProgress()"></div>
+  </div>
+</ion-footer>
+

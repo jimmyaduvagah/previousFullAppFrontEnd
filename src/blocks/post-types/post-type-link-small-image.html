@@ -1,0 +1,29 @@
+<ion-card style="white-space: normal;">
+  <table width="100%">
+    <tr>
+      <td (tap)="goToPost(post)" *ngIf="!detail" width="100" valign="top">
+        <div><div class="link-small-image" Image [imageSrc]="post.linked_content_object.data.image" [lazyLoad]="true" [useCache]="true"></div></div>
+      </td>
+      <td (tap)="goToPost(post)" *ngIf="!detail" class="link-small-image-description">
+        <h2>{{ post.linked_content_object.data.title }}</h2>
+        <p>{{ post.linked_content_object.data.description }}</p>
+      </td>
+
+      <td *ngIf="detail" width="100" valign="top">
+        <a [href]="post.linked_content_object.data.url"><img class="link-small-image" Image [imageSrc]="post.linked_content_object.data.image" [lazyLoad]="true" [useCache]="true" /></a>
+      </td>
+      <td *ngIf="detail" class="link-small-image-description">
+        <a [href]="post.linked_content_object.data.url"><h2>{{ post.linked_content_object.data.title }}</h2></a>
+        <p>{{ post.linked_content_object.data.description }}</p>
+      </td>
+
+    </tr>
+  </table>
+</ion-card>
+
+
+<!--{ "id": "4b6fbf4c-0a76-4599-ad74-71dbc474d3f3", -->
+<!--"data": { "image": "http://i.imgur.com/8AFyf7G.jpg?fb", "display": "vertical", "title": "Oh no", -->
+<!--"domain": "imgur.com", "image:height": "315", "image:width": "600", "url": "http://imgur.com/gallery/iQBGZ", -->
+<!--"content_type": "text/html;charset=UTF-8", "description": "Imgur: The most awesome images on the Internet.", -->
+<!--"_url": "http://m.imgur.com/gallery/iQBGZ", "type": "article", "site_name": "Imgur" } }-->

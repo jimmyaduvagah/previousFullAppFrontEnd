@@ -1,0 +1,27 @@
+<ion-split-pane *ngIf="!isWeakDevice">
+  <ion-nav [root]="rootPage" main #content swipeBackEnabled="false"></ion-nav>
+</ion-split-pane>
+
+<ion-split-pane *ngIf="isWeakDevice">
+  <ion-menu [content]="contentle">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content #menu>
+      <ion-list>
+        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+          <ion-icon [name]="p.icon" item-left></ion-icon>
+          {{p.title}}
+        </button>
+      </ion-list>
+    </ion-content>
+
+  </ion-menu>
+
+  <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+  <ion-nav [root]="rootPage" main #contentle swipeBackEnabled="false"></ion-nav>
+</ion-split-pane>
+

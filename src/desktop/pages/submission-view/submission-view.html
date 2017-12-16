@@ -1,0 +1,135 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      LE Submission
+    </ion-title>
+
+    <ion-buttons end>
+      <!--<button ion-button (tap)="save()">Save for Later</button>-->
+      <!--<button ion-button (tap)="submitForReview()">Submit for Review</button>-->
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="loading" style="text-align: center; padding-top: 40px;">
+    <ion-spinner></ion-spinner>
+  </div>
+  <ion-grid fixed *ngIf="!loading && leSubmission">
+    <ion-row>
+      <ion-col col-12 col-md-8>
+        <!-- the left side -->
+        <ion-row>
+          <ion-col>
+            <ion-item text-wrap>
+              <img *ngIf="leSubmission.image" Image [imageSrc]="leSubmission.image.src" [resize]="'250x250'" [localCache]="false" align="left" style="padding-right: 10px;" />
+              <h1>{{ leSubmission.title }}</h1>
+              <p font-bold *ngIf="haveIRatedThis">By: {{ leSubmission.created_by }}</p>
+              <p>{{ leSubmission.description }}</p>
+              <div style="margin-top:20px;">Word Count: {{ leSubmission.html | wordCount | async }}</div>
+              <button *ngIf="isThisMine || user.is_superuser" ion-button outline (tap)="makeNewVersionOfLeSubmission()">Make New Version To Edit</button>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <div padding>
+              <div *ngIf="!convertingToMarkdown" [innerHtml]="leSubmission.html"></div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+
+      <ion-col col-12 col-md-4 *ngIf="!isThisMine && !haveIRatedThis">
+        <!-- the right side -->
+        <h3>Rate the LE Submission</h3>
+        <ion-list>
+          <ion-item *ngFor="let item of ratingMetricsList">
+              <ion-label>{{ item.metric }}</ion-label>
+
+              <ion-select [ngModel]="leSubmissionRating.ratings[item.metric]" (ngModelChange)="updateRating($event, item.metric)" interface="popover">
+                <ion-option>1</ion-option>
+                <ion-option>2</ion-option>
+                <ion-option>3</ion-option>
+                <ion-option>4</ion-option>
+                <ion-option>5</ion-option>
+                <ion-option>6</ion-option>
+              </ion-select>
+          </ion-item>
+          <ion-item>
+
+            <ion-label>Approved <span style="font-size: 75%;">(* When ready for publishing)</span></ion-label>
+            <ion-toggle [(ngModel)]="leSubmissionRating.approved"></ion-toggle>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Comments</ion-label>
+            <ion-textarea fz-elastic [(ngModel)]="leSubmissionRating.comments"></ion-textarea>
+          </ion-item>
+          <button ion-button outline block color="primary" (tap)="submitRating()" *ngIf="!submittingRating" [disabled]="!canSubmitRating()">Submit Rating</button>
+          <div style="text-align: center;"  *ngIf="submittingRating">
+            <ion-spinner></ion-spinner>
+          </div>
+        </ion-list>
+      </ion-col>
+
+      <ion-col col-12 col-md-4 *ngIf="isThisMine || (!isThisMine && haveIRatedThis)">
+        <!-- the right side -->
+        <h3>Learning Experience Ratings</h3>
+        <ion-list>
+          <ion-item>
+            <span >Number of Ratings</span>
+            <span item-right>{{ leSubmission.number_of_ratings }}</span>
+          </ion-item>
+          <ion-item>
+            <span>Average Star Rating</span>
+            <span item-right>
+              <le-submission-rating-stars [stars]="leSubmission.average_rating | starsView"></le-submission-rating-stars>
+            </span>
+          </ion-item>
+          <ion-item *ngIf="user.is_staff || user.is_superuser">
+            <span>Total Average Rating</span>
+            <span item-right>{{ leSubmission.average_rating }}</span>
+          </ion-item>
+        </ion-list>
+        <h3>Average Ratings <button *ngIf="user.is_superuser" style="float: right;" small ion-button color="primary" (tap)="showRatingsModal()">Show Ratings</button></h3>
+        <ion-list>
+          <ion-item *ngFor="let item of ratingMetricsList">
+            <span >{{ item.metric }}</span>
+            <span item-right>
+              <le-submission-rating-stars [stars]="leSubmission.average_ratings[item.metric] | starsView"></le-submission-rating-stars>
+              <span *ngIf="user.is_staff || user.is_superuser">({{ leSubmission.average_ratings[item.metric] }})</span>
+            </span>
+          </ion-item>
+          <div *ngFor="let rating of leSubmission.ratings; let index = index">
+            <ion-item *ngIf="rating.comments.length > 0" text-wrap>
+              <div>Reviewer #{{ index + 1 }}'s Comments:</div>
+              <span keep-whitespace>{{ rating.comments }}</span>
+            </ion-item>
+          </div>
+        </ion-list>
+        <div *ngIf="myRatingOfThis">
+          <h3>Ratings you Submitted</h3>
+          <ion-list>
+            <ion-item *ngFor="let item of ratingMetricsList">
+              <span >{{ item.metric }}</span>
+              <span item-right>{{ myRatingOfThis.ratings[item.metric] }}</span>
+            </ion-item>
+            <ion-item text-wrap>
+              <div>Your Comments:</div>
+              <span keep-whitespace>{{ myRatingOfThis.comments }}</span>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+
+
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+

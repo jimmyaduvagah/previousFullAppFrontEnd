@@ -1,0 +1,134 @@
+<ion-header #header [attr.no-border]="fullscreenMode ? '' : null">
+  <ion-navbar color="primary" [attr.transparent]="fullscreenMode ? '' : null">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title [style.opacity]="fullscreenMode ? '0' : '1'">{{ le.title }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content #content (pan)="pan($event)" (ionScroll)="scrollEvent($event)" (ionScrollEnd)="scrollEvent($event)" [attr.fullscreen]="fullscreenMode ? '': null">
+      <div *ngIf="le.vimeo">
+        <video #video (ended)="endedEvent($event)"
+               (play)="playEvent($event)"
+               *ngIf="le.vimeo.src"
+               [src]="le.vimeo.src"
+               [controls]="!fullscreenMode"
+               [autoplay]="true"
+               style="width: 100%;"
+               [poster]="le.vimeo.pictures.sizes[le.vimeo.pictures.sizes.length-2].link"
+               playsinline
+               webkit-playsinline
+        ></video>
+      </div>
+
+  <ion-item-group #generalInfo>
+    <ion-item-divider color="light">
+      General Info
+    </ion-item-divider>
+
+    <ion-item text-wrap>
+     <h2>
+       Description
+     </h2>
+
+       {{ le.description }}
+
+   </ion-item>
+    <ion-item text-wrap>
+      <h2>Authors</h2>
+      <ion-chip color="twz-blue-dark" *ngFor="let author of le.authors_json">
+        <span class="chip-label">{{ author.name }}</span>
+      </ion-chip>
+    </ion-item>
+  <ion-item text-wrap>
+    <h2>
+      Category
+    </h2>
+    <button ion-button color="secondary" round outline>
+      {{ le.category }}
+    </button>
+  </ion-item>
+  <ion-item text-wrap *ngIf="le.tags_json.length">
+    <h2>
+      Tags
+    </h2>
+      <button ion-button color="secondary" round outline *ngFor="let tag of le.tags_json">
+        {{ tag.title }}
+      </button>
+  </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider color="light">
+      Ratings and Reviews
+    </ion-item-divider>
+
+  <ion-item text-wrap text-wrap>
+    <h2>Overall Rating</h2>
+      <ion-grid>
+        <ion-row>
+          <ion-col>&nbsp;</ion-col>
+          <ion-col col-auto class="le-rating">
+            <ion-icon [name]="starRating(1)"></ion-icon>
+            <ion-icon [name]="starRating(2)"></ion-icon>
+            <ion-icon [name]="starRating(3)"></ion-icon>
+            <ion-icon [name]="starRating(4)"></ion-icon>
+            <ion-icon [name]="starRating(5)"></ion-icon>
+            {{ le.rating }}
+          </ion-col>
+          <ion-col>&nbsp;</ion-col>
+        </ion-row>
+      </ion-grid>
+  </ion-item>
+
+  <ion-item *ngIf="loadingReviews">
+    <ion-spinner item-left></ion-spinner>
+    Loading Reviews...
+  </ion-item>
+
+    <ion-item *ngIf="!loadingReviews && !reviews.length">
+      No Recent Reviews
+    </ion-item>
+  <ion-item *ngFor="let review of reviews" text-wrap>
+    <div *ngFor="let res of review.response">
+      <div *ngIf="res.type == '5stars'">
+        <ion-icon [name]="starRating(1, res.response)"></ion-icon>
+        <ion-icon [name]="starRating(2, res.response)"></ion-icon>
+        <ion-icon [name]="starRating(3, res.response)"></ion-icon>
+        <ion-icon [name]="starRating(4, res.response)"></ion-icon>
+        <ion-icon [name]="starRating(5, res.response)"></ion-icon>
+      </div>
+      <div *ngIf="res.type == 'text'">
+        {{ res.response }}
+      </div>
+    </div>
+  </ion-item>
+
+  </ion-item-group>
+
+</ion-content>
+
+<ion-footer #footer no-border *ngIf="!fullscreenMode">
+  <ion-grid style="background: white;">
+    <ion-row>
+      <ion-col col-auto>
+        <button ion-button color="twz-blue" outline icon-left block (tap)="saveLe()">
+          <ion-icon name="md-download"></ion-icon>
+          Save
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="primary" outline icon-right block (tap)="goToLe(le)">
+          {{
+            ( le.is_started ?
+              ( le.is_completed ? 'Revisit' : 'Continue' )
+              : 'Start'
+            )
+          }} LE
+          <ion-icon name="ios-arrow-forward"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

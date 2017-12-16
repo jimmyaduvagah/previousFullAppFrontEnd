@@ -1,0 +1,41 @@
+<ion-header no-border>
+  <ion-navbar color="primary" transparent>
+    <ion-title>Change your number</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col col-lg-6 push-lg-3 col-md-8 push-lg-2>
+
+      <div *ngIf="user">
+        <h4>Current Number:</h4>
+        <h6>{{ user.phone_country_dial_code }} {{ user.phone_number }}</h6>
+      </div>
+      <h6>To change your phone number, enter a new one below. You must verify this new number via SMS before saving.</h6>
+      <ion-grid>
+        <ion-row class="setup-input-group">
+          <ion-col col-4 style="text-align: right;" (tap)="showSelectCountryModal($event, countryCodeInput)">
+            <ion-label stacked>Country</ion-label>
+            <img *ngIf="selectedPhoneCountry" src="data:image/png;base64,{{ selectedPhoneCountry.flag }}" style="width:23%;" />
+            <ion-input disabled #countryCodeInput (ionFocus)="showSelectCountryModal($event, countryCodeInput);" [(ngModel)]="newNumber.phone_country_dial_code" style="width:70%; display: inline-block;"></ion-input>
+          </ion-col>
+          <ion-col col-8>
+            <ion-label stacked>Phone Number</ion-label>
+            <ion-input [attr.hasError]="!phoneIsValid" [disabled]="!selectedPhoneCountry" [placeholder]="selectedPhoneCountry ? 'Enter your number':'Select Country' " [(ngModel)]="newNumber.phone_number" (ngModelChange)="phoneChanged($event)" type="tel"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div class="action-btns">
+        <p color="danger" *ngIf="newNumber.phone_number == user.phone_number && newNumber.phone_country_dial_code == user.phone_country_dial_code">You entered the same phone number</p>
+        <button ion-button color="primary"
+                outline
+                [disabled]="!(phoneIsValid && newNumber.phone_number != user.phone_number)"
+                (tap)="checkNumber()">Change & Verify</button>
+      </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+

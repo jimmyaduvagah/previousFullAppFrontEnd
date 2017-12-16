@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (tap)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Select {{ selectText }}</ion-title>
+    <ion-buttons end>
+      <button ion-button color="royal" (tap)="choose()">
+        Done
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list scrollbar-x="false" scrollbar-y="false">
+    <ion-searchbar
+      [ngModel]="searchText"
+      (ngModelChange)="inputChanged($event)"
+      (ionCancel)="onCancel($event)">
+    </ion-searchbar>
+    <div style="text-align: center;" *ngIf="loading">
+      <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="!loading">
+      <div  *ngIf="(emptyWhenNoSearch)?(searchText != ''):true">
+        <ion-item *ngFor="let item of items" (tap)="select(item)">
+          <ion-icon color="twz-green" item-start [name]="(item == selected)?'checkmark-circle':''"></ion-icon>
+          <ion-label class="label">{{ item[titleField] }}</ion-label>
+        </ion-item>
+      </div>
+    </div>
+    <ion-item *ngIf="searchText && shouldShowCreateBtn" style="text-align: center;">
+      <button ion-button (tap)="createNew()">Create "{{ searchText }}"</button>
+    </ion-item>
+  </ion-list>
+</ion-content>

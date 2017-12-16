@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      {{module.title}} : Add Survey Group Section
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-grid fixed>
+      <div padding *ngIf="!loading">
+          <form [formGroup]="surveyForm" (ngSubmit)="addSurveySection()">
+            <ion-item>
+              <ion-label stacked> Survey </ion-label>
+              <ion-select formControlName="survey" (ngModelChange)="onSurveyChange($event)">
+                 <ion-option *ngFor="let survey of surveyRes.results" value="{{survey.id}}">
+                      {{ survey.title }}
+                 </ion-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label stacked> Survey Group </ion-label>
+              <ion-select formControlName="survey_group_id" [disabled]='!surveySet'>
+                 <ion-option *ngFor="let group of survey_groups" value="{{group.uuid}}">
+                      {{group.title}}
+                 </ion-option>
+              </ion-select>
+            </ion-item>
+
+            <div padding>
+                <button ion-button type="submit"  outline class="le-btn"  [disabled]="!surveyForm.valid">
+                  Submit
+                </button>
+            </div>
+          </form>
+      </div>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-searchbar (ionInput)="filterLes($event)" placeholder="Learning Experiences"
+                   (blur)="_keyboard.close()"></ion-searchbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (tap)="_keyboard.close()" (touchstart)="_keyboard.close()">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list padding>
+
+    <ion-grid fixed *ngIf="!loading && les_started.length > 0">
+      <ion-row>
+        <h1>Started</h1>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4 col-md-3 col-lg-2 *ngFor="let le of les_started">
+          <learning-experience-list-item (tap)="goToLe(le)" [item]="le"></learning-experience-list-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div *ngIf="les_untouched">
+      <ion-grid fixed *ngFor="let cat of les_untouched">
+        <ion-row>
+          <h1>{{ cat.category }}</h1>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4 col-md-3 col-lg-2 *ngFor="let le of cat.les">
+            <learning-experience-list-item (tap)="goToLe(le)" [item]="le"></learning-experience-list-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <ion-grid fixed *ngIf="!loading && les_completed.length > 0">
+      <ion-row>
+        <h1>Completed</h1>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4 col-md-3 col-lg-2 *ngFor="let le of les_completed">
+          <learning-experience-list-item (tap)="goToLe(le)" [item]="le"></learning-experience-list-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

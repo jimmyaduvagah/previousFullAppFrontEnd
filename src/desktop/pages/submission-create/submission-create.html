@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      LE Submission
+    </ion-title>
+
+    <ion-buttons end>
+      <button ion-button (tap)="save()" [disabled]="lockSave">Save</button>
+      <button ion-button (tap)="submitForReview()" [disabled]="lockSubmitForReview">Submit for Review</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="loading" style="text-align: center; padding-top: 40px;">
+    <ion-spinner></ion-spinner>
+  </div>
+  <ion-grid fixed *ngIf="!loading && leSubmission">
+    <ion-row>
+      <ion-col col-12 col-md-8>
+        <!-- the left side -->
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label floating>Title</ion-label>
+              <ion-input [(ngModel)]="leSubmission.title"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Brief Description</ion-label>
+              <ion-textarea fz-elastic [(ngModel)]="leSubmission.description"></ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <div padding>
+              <ion-segment [(ngModel)]="contentSection">
+                <ion-segment-button value="original" (tap)="showOriginal()">
+                  Markdown
+                </ion-segment-button>
+                <ion-segment-button value="preview" (tap)="showPreview()">
+                  Rendered Preview
+                </ion-segment-button>
+              </ion-segment>
+            </div>
+
+            <div>
+              <div [hidden]="contentSection != 'original'">
+                <p padding-left>LE Content (<a href="https://guides.github.com/features/mastering-markdown/" target="_blank">Markdown can be used</a>)</p>
+                <ion-item class="fixed-width-font">
+                  <ion-textarea #contentInput fz-elastic [(ngModel)]="leSubmission.markdown"></ion-textarea>
+                </ion-item>
+              </div>
+
+              <div [hidden]="contentSection != 'preview'" padding>
+                <ion-item *ngIf="convertingToMarkdown">
+                  <ion-spinner left></ion-spinner>
+                  Loading Preview...
+                </ion-item>
+                <div>Word Count: {{ markdownPreview | wordCount | async }}</div>
+                <hr />
+                <div *ngIf="!convertingToMarkdown" [innerHtml]="makeMarkDown() | async"></div>
+              </div>
+            </div>
+
+          </ion-col>
+        </ion-row>
+
+
+      </ion-col>
+
+      <ion-col col-12 col-md-4>
+        <!-- the right side -->
+        <h2>Current Version ({{ leSubmission.version }})</h2>
+        <div *ngIf="leSubmission.version > 1">
+          <button *ngIf="leSubmission.versions[0]" full outline ion-button color="primary" (tap)="showRatingsModalForVersion(0)">Show Ratings From Version 1</button>
+        </div>
+        <h2>Image</h2>
+        <div *ngIf="!leSubmission.image && !loadingImage">
+          <form>
+            <label>Choose Cover Image File</label>
+            <input type="file" name="image" (change)="chooseImage($event)"  />
+          </form>
+        </div>
+        <div *ngIf="leSubmission.image && !loadingImage">
+          <form>
+            <label>Choose Cover Image File</label>
+            <input type="file" name="image" (change)="chooseImage($event)"  />
+          </form>
+          <img Image [imageSrc]="leSubmission.image.src" [resize]="'500x500'" [localCache]="false" />
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+

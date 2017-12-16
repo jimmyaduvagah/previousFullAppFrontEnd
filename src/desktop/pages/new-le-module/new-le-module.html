@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Add New Module to {{le.title}}
+    </ion-title>
+
+    <ion-buttons end *ngIf="!loading">
+      <button ion-button [disabled]="!moduleForm.valid" (tap)="uploadModule()">
+        Save
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="moduleForm" (ngSubmit)="false" *ngIf="!loading">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-2>
+          <img *ngIf="base64Image" [src]="base64Url()">
+
+          <button ion-button block outline (tap)="focusImageInput()">
+            Add Image
+          </button>
+
+          <input #imageInput name="image" [ngModel]="moduleimage"
+                 type="file"
+                 (change)="changeImage($event)"
+                 [ngModelOptions]="{standalone: true}"
+                 accept="image/*" style="visibility: hidden">
+          <ion-item>
+            <ion-label stacked>  Image Intellectual Property </ion-label>
+            <ion-select name="image_ip" formControlName="image_ip">
+              <ion-option value="true">
+                Yes
+              </ion-option>
+              <ion-option value="false">
+                No
+              </ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col col-10>
+          <ion-row>
+            <ion-col col-5>
+              <ion-item>
+                <ion-label stacked>Title </ion-label>
+                <ion-input type="text" name="title"   formControlName="title"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label stacked>Description </ion-label>
+                <ion-textarea fz-elastic name="description"   formControlName="description"></ion-textarea>
+              </ion-item>
+              <ion-item style="visibility: hidden">
+                <ion-label floating> Learning Experience </ion-label>
+                <ion-input type="text"
+                           name="course"
+                           formControlName="course">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-3>
+              <!--is this needed?-->
+
+
+            </ion-col>
+
+            <ion-col col-2>
+              <ion-item >
+                <ion-label stacked>State </ion-label>
+                <ion-select name="state" formControlName="state">
+                  <ion-option *ngFor="let state of module_states" value="{{state.value}}">
+                    {{state.title}}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </form>
+</ion-content>

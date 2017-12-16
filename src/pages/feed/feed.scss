@@ -1,0 +1,67 @@
+page-feed, page-learning-experience-section-comments {
+
+  ion-content {
+    background-color: $twz-card-page-bg !important;
+  }
+
+  .card {
+    //margin: 10px 5px !important;
+    //width: calc(100% - 10px) !important;
+    margin: 0;
+    width: 100%;
+  }
+
+  //ion-item {
+  //  padding-left: 0!important;
+  //}
+
+  //ion-item .item-inner {
+  //  padding-left: 5px !important;
+  //  padding-right: 5px !important;
+  //}
+
+  //ion-item .input-wrapper {
+  //  padding: 0!important;
+  //}
+  //
+  //ion-item ion-label {
+  //  margin: 0!important;
+  //}
+
+  .post-image, .link-image {
+    width: 100%;
+    height: 220px;
+    //max-height: 220px;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .link-small-image {
+    width: 100px;
+    height: 100px;
+    background-position: center top;
+    background-size: contain;
+    margin: 0px;
+  }
+
+  .link-small-image-description {
+    vertical-align: top;
+    padding-left: 2px;
+  }
+
+  post-actions button {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  ion-item ion-card {
+    margin-bottom: 0 !important;
+  }
+
+  .like-spinner {
+    margin-top: 12px;
+    margin-left: 18px;
+    width: 22px;
+    height: 22px;
+  }
+}

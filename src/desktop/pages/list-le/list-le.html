@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Learning Experiences
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (tap)="activateSort()" *ngIf="!showSort">
+        <ion-icon name="list"></ion-icon>
+      </button>
+      <button ion-button icon-only color="royal" (tap)="deactivateSort()" *ngIf="showSort">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list padding>
+    <ion-grid fixed>
+      <div padding>
+        <ion-searchbar (ionInput)="filterLes($event)" placeholder="Learning Experiences"></ion-searchbar>
+        <ion-list *ngIf="!loading" reorder="{{showSort}}" (ionItemReorder)="reorderItems($event)">
+          <ion-item *ngFor="let le of rawLes">
+            <ion-avatar item-left>
+              <img [src]="le.image.src">
+            </ion-avatar>
+            <h2>{{le.title}}</h2>
+            <p>{{le.category}}</p>
+
+            <button ion-button clear item-right (click)="goToEditLe(le)">Edit</button>
+            <!--<button ion-button clear item-right (click)="goToLe(le)">Edit Modules</button>-->
+            <button ion-button clear item-right (click)="deleteLe(le.id)">Delete</button>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-grid>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

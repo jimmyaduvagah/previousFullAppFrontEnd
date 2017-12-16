@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ title }} Experience Edit</ion-title>
+    <ion-buttons left>
+      <button ion-button icon-only color="royal" (tap)="cancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button ion-button color="royal" (tap)="save()">
+        Save
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (ionScroll)="didScroll()">
+  <ion-fab right bottom>
+    <button ion-fab (tap)="newExperience()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col col-lg-8 push-lg-2 col-md-10 push-lg-1>
+
+        <ion-list *ngIf="!loading" style="padding-bottom:60px;">
+          <ion-card keep-border *ngFor="let item of items; let index = index" padding-bottom>
+            <form [formGroup]="item.form">
+              <div class="btn-experience-remove-container">
+                <button ion-button icon-only color="danger" small outline round class="btn-experience-remove" (tap)="removeExperience(index)">
+                  <ion-icon name="close"></ion-icon>
+                </button>
+              </div>
+              <ion-item (tap)="showInstituteSelectModal(item, index)">
+                <div floating>{{ institutionFieldName }} *</div>
+                <span>{{ (item.institution)?item.institution.title:'Choose ' + institutionFieldNameAAN + ' ' + institutionFieldName }}</span>
+                <input [(ngModel)]="item.institution_id" formControlName="institution_id" type="hidden" />
+              </ion-item>
+              <ion-item *ngIf="type == 'job'">
+                <ion-label floating>Job Title *</ion-label>
+                <ion-input [(ngModel)]="item.job_title"
+                           formControlName="job_title"
+                           autocapitalize="sentences"
+                           autocorrect="on"
+                           autocomplete="on"
+                ></ion-input>
+              </ion-item>
+              <ion-item *ngIf="type == 'education'">
+                <ion-label floating>Degree</ion-label>
+                <ion-input [(ngModel)]="item.degree"
+                           formControlName="degree"
+                           autocapitalize="sentences"
+                           autocorrect="on"
+                           autocomplete="on"
+                ></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label floating>{{ (type == 'job')?'Job ':'' }}Summary</ion-label>
+                <ion-textarea [(ngModel)]="item.summary"
+                              fz-elastic
+                              formControlName="summary"
+                              autocapitalize="sentences"
+                              autocorrect="on"
+                              autocomplete="on"
+                ></ion-textarea>
+              </ion-item>
+              <ion-item>
+                <ion-label floating>Date From *</ion-label>
+                <ion-datetime #date_from displayFormat="MM-YYYY" pickerFormat="MM-YYYY" [(ngModel)]="item.date_from" formControlName="date_from"></ion-datetime>
+                <button item-right *ngIf="item.date_from" ion-button color="danger" small outline (tap)="clearField(index, 'date_from', date_from)">
+                  Remove
+                </button>
+              </ion-item>
+              <ion-item>
+                <ion-label floating>Date To</ion-label>
+                <ion-datetime #date_to displayFormat="MM-YYYY" pickerFormat="MM-YYYY" [(ngModel)]="item.date_to" formControlName="date_to"></ion-datetime>
+                <button item-right *ngIf="item.date_to" ion-button color="danger" small outline (tap)="clearField(index, 'date_to', date_to)">
+                  Remove
+                </button>
+              </ion-item>
+            </form>
+          </ion-card>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>
+

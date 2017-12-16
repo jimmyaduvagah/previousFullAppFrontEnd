@@ -1,0 +1,9 @@
+<ion-item>
+<ion-avatar item-left>
+    <img Image class [resize]="'100x100'" [imageSrc]="post.profile_image" [type]="'avatar'" [useCache]="false" (tap)="goToUserProfile(post.created_by_id)" style="object-fit: cover;"  />
+</ion-avatar>
+  <h2 *ngIf="!placeholder" ><strong (tap)="goToUserProfile(post.created_by_id)">{{ post.created_by }}</strong> <small style="color: #7a7a7a;" (tap)="goToPost(post)">{{ typeToNameWithLead(post.post_type_display) }}</small></h2>
+<p *ngIf="!placeholder"  (tap)="goToPost(post)">{{ postedTime }}</p>
+<p *ngIf="placeholder" style="color: #ddd; background-color: #ddd; width: 57%;">&nbsp;</p>
+<p *ngIf="placeholder" style="color: #ddd; background-color: #ddd; width: 36%;">&nbsp;</p>
+</ion-item>

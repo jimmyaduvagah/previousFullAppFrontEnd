@@ -1,0 +1,156 @@
+page-profile {
+  ion-content {
+    background-color: $twz-card-page-bg !important;
+  }
+  .bio {
+    position: relative;
+    max-height: 5em;
+    padding-top: 10px;
+    overflow: hidden;
+    text-align: left;
+    white-space: pre-wrap;
+    transition: height .2s;
+  }
+  .bio.full {
+    height: auto;
+    max-height: inherit;
+  }
+  .bio-fade {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+88,1+97 */
+    background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 88%, rgba(255,255,255,1) 97%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 88%,rgba(255,255,255,1) 97%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 88%,rgba(255,255,255,1) 97%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+    height: 5em;
+    bottom: 0px;
+    width: 100%;
+    position: absolute;
+  }
+
+  .bio-fade-show-more {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: -12px;
+    background-color: white;
+  }
+
+  .connection-actions {
+    position: absolute;
+    left: 150px;
+    top: 10px;
+  }
+  .btn-experience-edit {
+    position: absolute;
+    right: -18px;
+    top: -18px;
+  }
+  .btn-experience-edit-container {
+    width: 100%;
+    display: block;
+    position: relative;
+    overflow: visible;
+  }
+  .profile-head.card {
+    overflow: visible;
+    margin: -60px 5px 5px 5px;
+    background-color: white;
+    position: relative;
+    padding: 0 10px 10px 10px;
+    width: calc(100% - 10px);
+
+    .btn-profile-edit {
+      float: right;
+      margin-top: 0px;
+      margin-right: -10px;
+    }
+    .profile-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+      top: -50px;
+      margin-bottom: -50px;
+      position: relative;
+      background-position: center center !important;
+      background-size: cover !important;
+      border: 2px solid white;
+    }
+    .profile-name {
+      margin-top:10px;
+      h5 {
+        margin: 0;
+      }
+      h6 {
+        margin: 0;
+      }
+    }
+  }
+
+  .profile-head-image {
+    height: 200px;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+
+  }
+
+  .card {
+    margin: 10px 5px;
+    width: calc(100% - 10px);
+  }
+
+  //ion-item {
+  //  padding-left: 0!important;
+  //}
+
+  //ion-item .item-inner {
+  //  padding-left: 5px !important;
+  //  padding-right: 5px !important;
+  //}
+
+  //ion-item .input-wrapper {
+  //  padding: 0!important;
+  //}
+  //
+  //ion-item ion-label {
+  //  margin: 0!important;
+  //}
+
+  .post-image, .link-image {
+    width: 100%;
+    height: 220px;
+    //max-height: 220px;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .link-small-image {
+    width: 100px;
+    height: 100px;
+    background-position: center top;
+    background-size: contain;
+    margin: 0px;
+  }
+
+  .link-small-image-description {
+    vertical-align: top;
+    padding-left: 2px;
+  }
+
+  post-actions button {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  ion-item ion-card {
+    margin-bottom: 0 !important;
+  }
+
+  .like-spinner {
+    margin-top: 12px;
+    margin-left: 18px;
+    width: 22px;
+    height: 22px;
+  }
+
+}

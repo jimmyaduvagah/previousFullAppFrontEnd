@@ -1,0 +1,70 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+       View Survey Response
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (tap)="addToPayout()">
+        Add to Payout Queue
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content *ngIf="!loading">
+  <ion-grid>
+    <ion-row>
+
+        <ion-col col-8 offset-2>
+
+             <ion-col>
+                 <ion-card *ngFor="let group of survey_groups; let g = index;">
+                   <ion-card-header>
+                     <ion-row>
+                           <ion-item>
+                                {{group.title}}
+                           </ion-item>
+                             <ion-item>
+                                {{group.description}}
+                             </ion-item>
+                     </ion-row>
+                   </ion-card-header>
+                   <ion-card-content>
+                     <ion-list>
+                        <ion-card *ngFor="let question of group.questions; let i = index" class="question-item">
+                         <ion-card-header class="question-header">
+                           <ion-row>
+                             <ion-item>
+                                    Question: {{question.question}}
+
+                                    <h2 *ngIf="question.type !== 'checkbox' && question.type !== 'checkbox-with-other' ">
+
+                                      {{question.response}}
+
+                                    </h2>
+                                     <ion-list *ngIf="question.type == 'checkbox' || question.type == 'checkbox-with-other' ">
+                                          <ion-item *ngFor="let response of question.response">
+                                              {{response.title}}
+                                          </ion-item>
+                                     </ion-list>
+
+                             </ion-item>
+                           </ion-row>
+
+                         </ion-card-header>
+
+                        </ion-card>
+                     </ion-list>
+                   </ion-card-content>
+                 </ion-card>
+             </ion-col>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

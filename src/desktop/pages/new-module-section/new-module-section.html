@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar color="default">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Add New Module Section
+    </ion-title>
+
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="moduleSectionForm" (ngSubmit)="postModuleSection()">
+
+    <ion-item>
+      <ion-label stacked> Content Type </ion-label>
+      <ion-select [(ngModel)]="content_type" name="content_type" formControlName="content_type">
+        <ion-option *ngFor="let content of content_types" value="{{content.value}}">
+          {{content.title}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <button ion-button type="submit"  outline class="le-btn"  [disabled]="!moduleSectionForm.valid">
+      Save & Proceed
+    </button>
+
+  </form>
+
+   <button ion-button type="button"  outline class="le-btn"  (click) = 'addNewModule()'>
+    Add New LE Module
+   </button>
+
+</ion-content>

@@ -1,0 +1,70 @@
+<ion-card class="survey-question" *ngIf="surveyQuestionResponse">
+  <ion-card-header >
+    {{ question.question }}
+  </ion-card-header>
+  <ion-list *ngIf="question.type == 'radio' || question.type == 'radio-with-other'">
+    <div *ngFor="let answer of question.answers">
+      <button ion-item
+              *ngIf="answer.title != 'Other'"
+              text-wrap
+              (tap)="answerTapped($event, answer.title)"
+      >
+        <ion-icon
+          item-left
+          [name]="(surveyQuestionResponse.response == answer.title)?'radio-button-on':'radio-button-off'"></ion-icon>
+        <span>{{ answer.title }}</span>
+      </button>
+      <div ion-item
+           *ngIf="answer.title == 'Other'"
+           (tap)="answerTapped($event, answer.title)"
+      >
+        <ion-icon
+          item-left
+          [name]="(surveyQuestionResponse.response == typedAnswer)?'radio-button-on':'radio-button-off'"></ion-icon>
+        <ion-input item-right [(ngModel)]="typedAnswer" (ngModelChange)="otherAnswerTyped($event)"></ion-input>
+      </div>
+    </div>
+  </ion-list>
+  <ion-list *ngIf="question.type == 'checkbox' || question.type == 'checkbox-with-other'">
+    <div *ngFor="let answer of question.answers">
+      <button ion-item
+              *ngIf="answer.title != 'Other'"
+              text-wrap
+              (tap)="checkBoxAnswerTapped($event, answer)"
+      >
+        <ion-icon
+          item-left
+          [name]="(answer.selected)?'checkbox':'square-outline'"></ion-icon>
+        <span>{{ answer.title }}</span>
+      </button>
+      <div ion-item
+           *ngIf="answer.title == 'Other'"
+      >
+        <ion-icon
+          item-left
+          [name]="(answer.selected)?'checkbox':'square-outline'"></ion-icon>
+        <ion-input item-right [(ngModel)]="typedAnswer" (ngModelChange)="checkboxOtherAnswerTyped($event, answer)"></ion-input>
+      </div>
+    </div>
+  </ion-list>
+  <ion-list *ngIf="question.type == 'scale'">
+    <div *ngFor="let scaleOption of scaleOptions">
+      <button ion-item (tap)="answerTapped($event, scaleOption)">
+        <ion-icon
+          item-left
+          [name]="(surveyQuestionResponse.response == scaleOption)?'radio-button-on':'radio-button-off'"></ion-icon>
+        <span>{{ scaleOption }}</span>
+      </button>
+    </div>
+  </ion-list>
+  <div *ngIf="question.type == 'longtext'">
+    <ion-textarea fz-elastic [(ngModel)]="typedAnswer" placeholder="Enter your response here" (ngModelChange)="otherAnswerTyped($event)"></ion-textarea>
+  </div>
+  <ion-list *ngIf="question.type == 'shorttext'">
+    <div>
+      <ion-item>
+        <ion-input [(ngModel)]="typedAnswer" placeholder="Enter your response here" (ngModelChange)="otherAnswerTyped($event)"></ion-input>
+      </ion-item>
+    </div>
+  </ion-list>
+</ion-card>

@@ -1,0 +1,144 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+     <ion-title>
+      Edit - {{le.title}}
+    </ion-title>
+      <ion-buttons end>
+          <button ion-button [disabled]="!leForm.valid" (tap)="uploadModule()">
+              Save LE
+          </button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="leForm" (ngSubmit)="false" *ngIf="!loading">
+      <ion-grid>
+          <ion-row>
+              <ion-col col-2>
+                  <img *ngIf="le.image && !base64Image" [src]="le.image.src" (tap)="focusImageInput()">
+
+                  <img *ngIf="base64Image" [src]="base64Url()">
+
+                  <button ion-button block outline *ngIf="!base64Image" (tap)="focusImageInput()">
+                      <span *ngIf="le.image">Change Image</span>
+                      <span *ngIf="!le.image">Add Image</span>
+                  </button>
+
+                  <button ion-button block outline color="danger" *ngIf="base64Image" (tap)="clearImage()">
+                      Undo Image Change
+                  </button>
+
+                      <input #imageInput name="image" [ngModel]="leImage"
+                             type="file"
+                             (change)="changeImage($event)"
+                             [ngModelOptions]="{standalone: true}"
+                             accept="image/*" style="visibility: hidden">
+                  <ion-item>
+                      <ion-label stacked>  Image Intellectual Property </ion-label>
+                      <ion-select name="image_ip" formControlName="image_ip">
+                          <ion-option value="true">
+                              Yes
+                          </ion-option>
+                          <ion-option value="false">
+                              No
+                          </ion-option>
+                      </ion-select>
+                  </ion-item>
+              </ion-col>
+              <ion-col col-10>
+                  <ion-row>
+                      <ion-col col-5>
+                          <ion-item>
+                              <ion-label stacked>Title </ion-label>
+                              <ion-input type="text" name="title"   formControlName="title"></ion-input>
+                          </ion-item>
+                          <ion-item>
+                              <ion-label stacked>Description </ion-label>
+                              <ion-textarea fz-elastic name="description"   formControlName="description"></ion-textarea>
+                          </ion-item>
+                      </ion-col>
+                      <ion-col col-3>
+                          <ion-item>
+                              <ion-label stacked>Category </ion-label>
+                              <ion-select  (ngModelChange)="setCategory($event)" formControlName="category_id"
+                              >
+                                  <ion-option *ngFor="let cat of categoryResponse.results" value="{{cat.id}}"  >
+                                      {{cat.title}}
+                                  </ion-option>
+                              </ion-select>
+                          </ion-item>
+
+                          <ion-item>
+                              <ion-list>
+                                  <label stacked>Author </label>
+                                  <ion-item *ngFor="let author of leAuthor let l = index" >
+                                      {{author.name }}
+                                      <button item-right ion-button icon-only color="royal" (tap)="removeAuthor(l)">
+                                          <ion-icon name="close"></ion-icon>
+                                      </button>
+                                  </ion-item>
+                              </ion-list>
+                              <button item-right ion-button (tap)="selectAuthor()">
+                                  Select Author
+                              </button>
+                          </ion-item>
+
+                          <ion-item>
+                              <ion-label stacked> Intro Video's Vimeo ID </ion-label>
+                              <ion-input formControlName="vimeo_id"></ion-input>
+                          </ion-item>
+
+                      </ion-col>
+
+                      <ion-col col-2>
+                          <ion-item >
+                              <ion-label stacked>State </ion-label>
+                              <ion-select name="state" formControlName="state">
+                                  <ion-option *ngFor="let state of le_states" value="{{state.value}}">
+                                      {{state.title}}
+                                  </ion-option>
+                              </ion-select>
+                          </ion-item>
+                      </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="loadingModules">
+                      <ion-item>
+                          <ion-spinner item-start></ion-spinner>
+                          Loading Sections...
+                      </ion-item>
+                  </ion-row>
+                  <ion-row *ngIf="!loadingModules">
+                      <ion-col padding>
+                          <h2>Modules</h2>
+                      </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="!loadingModules">
+                      <ion-col col-3 *ngFor="let leModule of leModules" padding>
+                          <learning-experience-list-item (tap)="goToLeModule(leModule)" [item]="leModule"></learning-experience-list-item>
+                      </ion-col>
+                      <ion-col col-3 padding>
+                          <learning-experience-list-item (tap)="goToNewModule()" [item]="addNewModule" [localImage]="true"></learning-experience-list-item>
+                      </ion-col>
+                  </ion-row>
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+
+
+
+
+    <!--<ion-item>-->
+      <!--<ion-label stacked>Authors </ion-label>-->
+      <!--<ion-select  formControlName="authors" multiple="true">-->
+        <!--<ion-option *ngFor="let user of userResponse.results" value="{{user.id}}">-->
+          <!--{{ user.first_name+' '+user.last_name  }}-->
+        <!--</ion-option>-->
+      <!--</ion-select>-->
+    <!--</ion-item>-->
+
+  </form>
+</ion-content>

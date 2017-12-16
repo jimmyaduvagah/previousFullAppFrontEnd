@@ -1,0 +1,93 @@
+<div #sectionElement class=""
+     [class.nextSection]="isNext"
+     [class.activeSection]="visible"
+     [class.prevSection]="isPrev"
+     [class.lastSection]="section.type == 'end_of_module'"
+     [class.textSection]="section.type == 'text'"
+     [class.shortTextSection]="shortTextSection"
+     [style.overflowY]="(scrollable)?'auto':'hidden'"
+     style="height: 100%; padding-bottom:45px;"
+     [style.color]="section.textColor ? section.textColor:null"
+     [style.backgroundColor]="section.backgroundColor ? section.backgroundColor:null"
+      >
+
+  <div *ngIf="section.type == 'image' && !index">
+    <img Image [imageSrc]="section.image.src" [autoSetHeight]="true" [backgroundColor]="section.image.color" [resize]="'1000x1000'" style="width:100%; height:100%;" [imageSize]="section.image">
+  </div>
+
+    <div *ngIf="section.type == 'image' && index" class="flexbox-parent">
+    <div style="height: 300px;" class="flexbox-item header">
+      <div style="height: 300px; background-position: center center;" Image [imageSrc]="section.image.src" [backgroundSize]="'cover'" [backgroundColor]="section.image.color" [imageSize]="section.image" (tap)="viewImage(section.image.src)"></div>
+    </div>
+
+    <div class="flexbox-item fill-area content flexbox-item-grow">
+      <div [innerHTML]="section.html" style="text-align: left;" padding class="fill-area-content flexbox-item-grow" [class.activeFlexboxScrollSection]="visible"></div>
+    </div>
+
+  </div>
+
+
+  <div *ngIf="section.type == 'video' && section.vimeo.files" class="flexbox-parent">
+    <video (ended)="endedEvent($event)"
+           *ngIf="section.vimeo.src"
+           [src]="section.vimeo.src"
+           [controls]="true"
+           [autoplay]="false"
+           (seeking)="preventEvent($event)"
+           class="flexbox-item header"
+           style="width: 100%;"
+           [poster]="section.vimeo.pictures.sizes[section.vimeo.pictures.sizes.length-2].link_with_play_button"
+           playsinline
+           webkit-playsinline
+    ></video>
+    <div class="flexbox-item fill-area content flexbox-item-grow">
+      <div [innerHTML]="section.html" style="text-align: left;" padding class="fill-area-content flexbox-item-grow" [class.activeFlexboxScrollSection]="visible"></div>
+    </div>
+  </div>
+
+  <div *ngIf="section.type == 'gallery'" class="flexbox-parent">
+    <ion-slides #subSlides style="height: 300px" class="flexbox-item header" (ionSlideDidChange)="slideChanged($event)" (pan)="panPrevent($event)" [zoom]="false" pager="true" paginationType="bullets">
+      <ion-slide *ngFor="let image of section.gallery.images">
+        <!--<img [imageSrc]="image.image.src" [resize]="'1500x1500'" Image (tap)="viewImage(image.image.src)" />-->
+        <div style="height: 300px;" Image [resize]="'1500x1500'" [imageSrc]="image.image.src" [backgroundColor]="image.image.color" [backgroundSize]="'cover'" [imageSize]="image.image" (tap)="viewImage(image.image.src)"></div>
+      </ion-slide>
+    </ion-slides>
+
+    <div class="flexbox-item fill-area content flexbox-item-grow">
+      <div [innerHTML]="section.html" style="text-align: left;" padding class="fill-area-content flexbox-item-grow" [class.activeFlexboxScrollSection]="visible"></div>
+    </div>
+
+  </div>
+
+  <div *ngIf="section.type == 'text'" style="" padding>
+    <!--<h3 *ngIf="section.title">{{ section.title }}</h3>-->
+    <div [innerHTML]="section.html"></div>
+  </div>
+
+  <div *ngIf="section.type == 'quiz'">
+    <!--<h3 *ngIf="section.title" padding>{{ section.title }}</h3>-->
+    <quiz #quiz [section]="section" [editMode]="editMode"></quiz>
+  </div>
+
+  <div *ngIf="section.type == 'end_of_module'">
+
+    <div text-center>
+    <h1><ion-icon color="twz-green" name="md-checkmark-circle-outline"></ion-icon> Awesome!</h1>
+      <p>You've completed <b>{{ section.moduleTitle }}</b></p>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <button ion-button block outline color="secondary" (tap)="goToList.emit(true)">Back to List</button>
+          </ion-col>
+          <ion-col>
+            <button ion-button block outline color="primary" (tap)="goToNext.emit(true)">Next Module</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+    </div>
+
+  </div>
+
+</div>

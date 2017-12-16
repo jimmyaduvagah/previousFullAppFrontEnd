@@ -1,0 +1,8 @@
+{
+  "name": "tw-client-ionic",
+  "app_id": "c40b81d6",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

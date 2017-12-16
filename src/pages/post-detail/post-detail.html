@@ -1,0 +1,75 @@
+<!--
+  Generated template for the PostDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title *ngIf="post">{{ post.created_by }}'s Post</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content (tap)="closeKeyboard()" (touchstart)="closeKeyboard()" (swiperight)="goBack()">
+  <ion-card *ngIf="postDoesNotExist">
+    <h3>Sorry, the requested item no longer exists.</h3>
+  </ion-card>
+
+  <ion-grid fixed *ngIf="!postDoesNotExist">
+    <ion-row *ngIf="post" >
+      <ion-grid col-12 col-md-6 col-lg-8>
+        <ion-card>
+          <post [post]="post" [detail]="true" [addCommentCallback]="inputFocusCallback()"></post>
+        </ion-card>
+      </ion-grid>
+
+      <ion-grid col-12 col-md-6 col-lg-4>
+        <ion-card>
+          <ion-card-header>
+            <h2><ion-icon name="chatboxes"></ion-icon>&nbsp;Comments</h2>
+          </ion-card-header>
+          <ion-list *ngIf="!commentsLoading && comments.length > 0">
+              <ion-item *ngFor="let comment of comments;" class="comment-item">
+                <post [post]="comment" [comment]="true"></post>
+              </ion-item>
+          </ion-list>
+          <ion-list *ngIf="!commentsLoading && comments.length == 0">
+            <ion-item>
+              There are no comments yet...
+            </ion-item>
+          </ion-list>
+
+          <ion-card-content *ngIf="commentsLoading">
+            <div style="position: relative; height: 60px;">
+            <inline-loading [text]="'Loading Comments...'"></inline-loading>
+            </div>
+          </ion-card-content>
+
+        </ion-card>
+      </ion-grid>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer *ngIf="!postDoesNotExist">
+  <ion-toolbar color="light">
+    <ion-textarea
+      placeholder="Add a comment"
+      [(ngModel)]="myComment.text_content"
+      #commentInput
+      autocapitalize="sentences"
+      autocorrect="on"
+      autocomplete="on"
+      (blur)="closeKeyboard()"
+    ></ion-textarea>
+    <ion-buttons end>
+      <button ion-button color="primary" (tap)="postComment()" [disabled]="myComment.text_content == '' || posting">
+        Send &nbsp;
+        <ion-icon name="md-send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

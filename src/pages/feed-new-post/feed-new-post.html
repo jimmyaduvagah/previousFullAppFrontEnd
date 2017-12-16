@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      {{ pageTitle }}
+    </ion-title>
+
+    <ion-buttons end>
+      <button ion-button (click)="postComment()" [disabled]="!canIPost()">
+        <span ion-text showWhen="ios">Post</span>
+        <span ion-text showWhen="android,windows">Post &nbsp;</span>
+        <ion-icon name="md-send" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="!initialLoading">
+    <post-author [post]="myPost"></post-author>
+    <ion-item>
+      <ion-textarea
+        fz-elastic
+        style="height:100%;"
+        placeholder="Share your thoughts with the world"
+        [(ngModel)]="myPost.text_content"
+        (blur)="expandAttachment()"
+        autocapitalize="sentences"
+        autocorrect="on"
+        autocomplete="on"
+        (focus)="collapseAttachment()"></ion-textarea>
+    </ion-item>
+    <button ion-item detail-none *ngIf="!attachment && attachmentCollapsed">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            Attach Photos and More
+          </ion-col>
+          <ion-col style="text-align: right;">
+          <span *ngFor="let item of typesOfPosts" (tap)="addTypeOf(item)">
+            <ion-icon [name]="item.icon" [style.color]="item.color"></ion-icon>
+          </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </button>
+    <ion-item *ngIf="attachment && myPost.post_type == 2">
+      <ion-card>
+        <button ion-button clear icon-only class="btn-remove-link" (tap)="clearAttachment()"><ion-icon name="close"></ion-icon></button>
+        <div class="post-image" Image
+             [imageSrc]="attachment.image"
+             [imageSize]="{width: attachment['image:width'], height: attachment['image:height']}"
+             [autoSetHeight]="true"
+             [resize]="'500x500'"
+             [useCache]="true"></div>
+        <div style="padding:0 10px; white-space: normal; white-space: pre-line;">
+          <h2>{{ attachment.title }}</h2>
+          <p>{{ attachment.description }}</p>
+        </div>
+      </ion-card>
+    </ion-item>
+    <ion-item *ngIf="attachment && myPost.post_type == 3">
+      <ion-card style="white-space: normal;">
+        <button ion-button clear icon-only class="btn-remove-link" (tap)="clearAttachment()"><ion-icon name="close"></ion-icon></button>
+        <table width="100%">
+          <tr>
+            <td width="100" valign="top">
+              <div class="link-small-image" Image [imageSrc]="attachment.image" *ngIf="attachment.image"></div>
+            </td>
+            <td class="link-small-image-description">
+              <h2>{{ attachment.title }}</h2>
+              <p>{{ attachment.description }}</p>
+            </td>
+          </tr>
+        </table>
+      </ion-card>
+    </ion-item>
+    <ion-item *ngIf="attachment && myPost.post_type == 4">
+      <ion-card style="white-space: normal;">
+        <button ion-button clear icon-only class="btn-remove-link" (tap)="clearAttachment()"><ion-icon name="close"></ion-icon></button>
+        <img [src]="attachment.image" style="max-width: 100%;" />
+      </ion-card>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer *ngIf="!attachment && !attachmentCollapsed">
+
+  <ion-list *ngIf="!attachment && !attachmentCollapsed">
+    <button ion-item detail-none *ngFor="let item of typesOfPosts" (tap)="addTypeOf(item)">
+      <ion-icon [name]="item.icon" [style.color]="item.color" item-left></ion-icon>
+      &nbsp; {{ item.text }}
+    </button>
+  </ion-list>
+
+
+</ion-footer>

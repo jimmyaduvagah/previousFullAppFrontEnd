@@ -1,0 +1,150 @@
+<ion-header no-border>
+  <ion-navbar color="primary" transparent>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <!--<ion-title *ngIf="isSelf">My Profile</ion-title>-->
+    <!--<ion-title *ngIf="!isSelf && !loading">{{ user.first_name }} {{ user.last_name }}</ion-title>-->
+    <ion-buttons end>
+      <button ion-button icon-only (tap)="goToSettings()" *ngIf="isSelf">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+      <button ion-button icon-only (tap)="editProfile()" *ngIf="isSelf">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <div class="profile-head-image" style="background-image: url(assets/imgs/default-profile-bg.jpg); background-color: rgba(0,0,0,.75);"></div>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col col-lg-10 push-lg-1 col-md-12 push-lg-0>
+        <ion-card class="profile-head" *ngIf="loading">
+          <div class="profile-image" style="background-color: rgba(0,0,0,.75)"></div>
+          <div class="profile-name">
+            <h1>&nbsp;</h1>
+            <h2>&nbsp;</h2>
+          </div>
+        </ion-card>
+        <ion-card class="profile-head" *ngIf="!loading">
+          <button ion-button icon-only color="dark" clear (tap)="editProfile()" class="btn-profile-edit" *ngIf="isSelf">
+            <ion-icon name="create" *ngIf="isSelf"></ion-icon>
+          </button>
+          <div Image class="profile-image" [resize]="'200x200'" [imageSrc]="user.profile_image" [type]="'avatar'" (tap)="showProfileImage()" style="background-color: rgba(0,0,0,.75)"></div>
+          <div class="profile-name">
+            <h1>{{ user.getName() }}</h1>
+            <h2>{{ (jobExpereienceLoading)?'':((jobExpereience.length > 0)?jobExpereience[0].job_title + ' at ' + jobExpereience[0].institution.title:'') }}</h2>
+            <p *ngIf="user.town_of_residence">{{ user.town_of_residence }}</p>
+          </div>
+          <div class="" text-center *ngIf="!isSelf && currentUser.id !== user.id">
+            <button small ion-button color="primary" outline (tap)="createRequest()" *ngIf="!user.connected && !user.pending_request">Connect</button>
+            <button small ion-button color="twz-red" outline (tap)="removeConnection()" *ngIf="user.connected && !user.pending_request">Un-Connect</button>
+            <span *ngIf="connectionRequest && connectionRequest.to_user_id == user.id && connectionRequest.state_id == 'P'">
+        <button small ion-button color="twz-red"  outline (tap)="withdrawRequest(user.pending_request)" *ngIf="!user.connected && user.pending_request">Withdraw Request</button>
+      </span>
+            <span *ngIf="connectionRequest && connectionRequest.from_user_id == user.id && connectionRequest.state_id == 'P'">
+        <button small ion-button color="twz-green"  outline (tap)="acceptRequest(user.pending_request)" *ngIf="!user.connected && user.pending_request && connectionRequest.state_id == 'P'">Accept</button>
+        <button small ion-button color="twz-red"  outline (tap)="rejectRequest(user.pending_request)" *ngIf="!user.connected && user.pending_request && connectionRequest.state_id == 'P'">Reject</button>
+      </span>
+          </div>
+        </ion-card>
+
+        <ion-card *ngIf="!loading && (user.bio_html || (isSelf))">
+          <ion-item-divider (tap)="isSelf ? editBio() : false">
+            About {{ user.first_name }}
+            <ion-icon *ngIf="isSelf" item-right name="create"></ion-icon>
+          </ion-item-divider>
+          <div *ngIf="savingBio" style="text-align: center;"><ion-spinner></ion-spinner></div>
+          <ion-card-content *ngIf="user.bio && !savingBio" (tap)="toggleBio()" >
+            <div style="position: relative;">
+              <div class="bio" [class.full]="showBio" [innerHtml]="user.bio"></div>
+              <div class="bio-fade" *ngIf="!showBio">
+                <div class="bio-fade-show-more">Show More</div>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>LE's Authored</ion-card-header>
+          <ion-card-content>
+            <ion-item *ngIf="learningExperienceListLoading">
+              <ion-spinner item-left></ion-spinner>
+              Loading LEs
+            </ion-item>
+            <!-- TODO: get this horizontal scroll to work -->
+            <!--<ion-scroll scrollX="true" *ngIf="!learningExperienceListLoading && learningExperienceList.length > 0">-->
+            <!--<div style="width:30%; display:inline-block; margin-left:2%;" *ngFor="let le of learningExperienceList">-->
+            <!--<learning-experience-list-item (tap)="goToLe(le)" [item]="le"></learning-experience-list-item>-->
+            <!--</div>-->
+            <!--</ion-scroll>-->
+            <ion-item *ngIf="!learningExperienceListLoading && learningExperienceList.length == 0" text-wrap text-center>
+              {{ user.first_name }} has not authored any LEs
+            </ion-item>
+          </ion-card-content>
+          <ion-grid style="margin-top:-20px;" fixed *ngIf="!learningExperienceListLoading && learningExperienceList.length > 0">
+            <ion-row>
+              <ion-col col-4 col-md-3 col-lg-2 *ngFor="let le of learningExperienceList">
+                <learning-experience-list-item (tap)="goToLe(le)" [item]="le"></learning-experience-list-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+
+        <ion-card (tap)="goToJobList()" style="position: relative;">
+
+          <ion-list>
+            <ion-item-divider (tap)="isSelf ? editExperience('job') : false">
+              Jobs
+              <ion-icon *ngIf="isSelf" item-right name="create"></ion-icon>
+            </ion-item-divider>
+            <ion-item *ngIf="jobExpereienceLoading">
+              <ion-spinner item-left></ion-spinner>
+              Loading Jobs
+            </ion-item>
+            <ion-item *ngFor="let position of jobExpereience" text-wrap>
+              <p><strong>{{ position.institution.title }}</strong></p>
+              <p>{{ position.job_title }}</p>
+              <p>{{ position.date_from | momentFormat: 'MMMM YYYY' }}{{ (position.date_to)?' - ': '' }}{{ position.date_to | momentFormat: 'MMMM YYYY' }}</p>
+            </ion-item>
+            <ion-item *ngIf="!jobExpereienceLoading && jobExpereience.length == 0" text-wrap text-center>
+              {{ user.first_name }} has no Job info
+            </ion-item>
+          </ion-list>
+
+          <ion-list>
+            <ion-item-divider (tap)="isSelf ? editExperience('education') : false">
+              Education
+              <ion-icon *ngIf="isSelf"  item-right name="create"></ion-icon>
+            </ion-item-divider>
+            <ion-item *ngIf="educationalExpereienceLoading">
+              <ion-spinner item-left></ion-spinner>
+              Loading Education
+            </ion-item>
+            <ion-item *ngFor="let position of educationalExpereience" text-wrap>
+              <p><strong>{{ position.institution.title }}</strong></p>
+              <p>{{ position.degree }}</p>
+              <p>{{ position.date_from | momentFormat: 'MMMM YYYY' }}{{ (position.date_to)?' - ': '' }}{{ position.date_to | momentFormat: 'MMMM YYYY' }}</p>
+            </ion-item>
+            <ion-item *ngIf="!educationalExpereienceLoading && educationalExpereience.length == 0"  text-wrap text-center>
+              {{ user.first_name }} has no Education info
+            </ion-item>
+          </ion-list>
+        </ion-card>
+
+        <ion-list scrollbar-x="false" scrollbar-y="false">
+          <ion-card *ngFor="let item of usersPosts">
+            <post (goToPostEvent)="goToPost(item)" [post]="item"></post>
+          </ion-card>
+        </ion-list>
+        <ion-infinite-scroll (ionInfinite)="loadMorePosts($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+

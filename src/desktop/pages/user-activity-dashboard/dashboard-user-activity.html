@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+        User Activity
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid fixed>
+    <ion-row *ngIf="!loading">
+   <ion-searchbar (ionInput)="filterUsers($event)" placeholder="Search User "></ion-searchbar>
+   <ion-list>
+     <ion-grid>
+        <ion-row class="activity-head">
+            <ion-col col-12 col-lg-3 col-md-6>
+              User
+            </ion-col>
+            <ion-col col-12 col-lg-3 col-md-6>
+              LEs Started
+            </ion-col>
+            <ion-col col-12 col-lg-3 col-md-6>
+               LEs Finished
+            </ion-col>
+            <ion-col col-12 col-lg-3 col-md-6>
+               Reviews Count
+            </ion-col>
+        </ion-row>
+        <ion-item *ngFor = "let person of people; let i = index" class="person-row">
+          <ion-row>
+            <ion-col col-12 col-lg-3 col-md-6>
+              {{person.full_name}}
+            </ion-col>
+            <ion-col *ngIf="person.progress_object" col-12 col-lg-3 col-md-6>
+              {{person.progress_object.length}}
+            </ion-col>
+            <ion-col *ngIf="person.progress_object" col-12 col-lg-3 col-md-6>
+               {{ getFinishedLes(person.progress_object) }}
+            </ion-col>
+            <ion-col col-12 col-lg-3 col-md-6>
+               {{person.reviews }}
+            </ion-col>
+          </ion-row>
+        </ion-item>
+     </ion-grid>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-row>
+  </ion-grid>
+</ion-content>

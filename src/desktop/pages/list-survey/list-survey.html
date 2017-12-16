@@ -1,0 +1,48 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+       List Surveys
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content *ngIf="!loading">
+  <ion-grid>
+    <ion-row>
+        <ion-col col-8 offset-2>
+          <ion-list>
+            <ion-item *ngFor="let survey of surveyRes.results; let s = index;">
+                {{ survey.title}}
+                <button ion-button clear item-right color="secondary" (click)="surveyResponses(survey.id)">
+                                  View Responses
+                </button>
+                <button ion-button clear item-right (click)="editSurvey(survey)">
+                                  Edit
+                </button>
+                <button ion-button clear item-right color="danger" (click)="deleteSurvey(survey.id)">
+                                  Delete
+                </button>
+            </ion-item>
+          </ion-list>
+
+        </ion-col>
+        <ion-col col-2>
+           <ion-fab bottom left>
+              <button ion-fab>
+                <ion-icon name="add">
+                </ion-icon>
+              </button>
+              <ion-fab-list side="bottom">
+                <button ion-button (click)="newSurvey()">Add New Survey</button>
+              </ion-fab-list>
+            </ion-fab>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

@@ -1,0 +1,70 @@
+<ion-header no-border>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Features & Bugs </ion-title>
+    <ion-buttons end>
+      <button ion-button (tap)="submitBug()">
+        Submit
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <form  [formGroup]="bugForm" submit="return false;">
+        <ion-item text-wrap>
+          <p>Report a bug or suggest a new feature and enhancements.<br /></p>
+          <p>We automatically include your Name, Email, Device Type and App Version in your comment.</p>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked> Title</ion-label>
+          <ion-input type="text" formControlName="title" name="title">
+            autocapitalize="sentences"
+            autocorrect="on"
+            autocomplete="on"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked> Category</ion-label>
+          <ion-select formControlName="category" name="category">
+            <ion-option value="bug"> Bug </ion-option>
+            <ion-option value="enhancement"> Enhancement</ion-option>
+            <ion-option value="suggestion"> Suggestion </ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked> Description </ion-label>
+          <ion-textarea formControlName="description" name="description"
+                        autocapitalize="sentences"
+                        autocorrect="on"
+                        autocomplete="on"
+          >
+          </ion-textarea>
+        </ion-item>
+         <ion-item>
+             <span *ngIf="screenshot_image">
+                {{screenshot_file.name }}
+            </span>
+             <button ion-button (tap)="focusImageInput()" item-end>
+                 <span *ngIf="screenshot_image">
+                    Change Screenshot
+                </span>
+                 <span *ngIf="!screenshot_image">
+                    Add Screenshot
+                </span>
+             </button>
+         </ion-item>
+            <input #imageInput formControlName="screenshot" multiple="false" id="screenshot" name="screenshot"
+                   type="file" accept="image/*" (change)="changeImage($event)" class="inputfile" style="visibility: hidden;">
+            <!--<label class="" for="screenshot">-->
+                  <!--Upload Screenshot-->
+            <!--</label>-->
+
+    </form>
+
+    <div class="error" *ngIf="error">{{ error }}</div>
+    </ion-list>
+</ion-content>

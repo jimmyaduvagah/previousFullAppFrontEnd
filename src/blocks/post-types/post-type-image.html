@@ -1,0 +1,25 @@
+<div> <!-- for some reason this post image needs to be in a block element...-CJ  -->
+  <div class="post-image" *ngIf="!detail"
+       Image
+       backgroundSize="cover"
+       [style.background-position]="'center ' + post.linked_content_object.display_position"
+       [imageSrc]="post.linked_content_object.src"
+       [resize]="width+'x'+height"
+       [autoSetHeight]="false"
+       [lazyLoad]="true"
+       [backgroundColor]="post.linked_content_object.color"
+       (tap)="goToPost(post)"
+  ></div>
+  <div class="post-image" *ngIf="detail"
+       Image
+       backgroundSize="contain"
+       [style.background-position]="'center ' + post.linked_content_object.display_position"
+       [imageSrc]="post.linked_content_object.src"
+       [resize]="width+'x'+height"
+       [autoSetHeight]="true"
+       [backgroundColor]="post.linked_content_object.color"
+       [lazyLoad]="false"
+       [imageSize]="post.linked_content_object"
+       (tap)="viewImage()"
+  ></div>
+</div>

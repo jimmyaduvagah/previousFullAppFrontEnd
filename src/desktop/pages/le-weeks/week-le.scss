@@ -1,0 +1,41 @@
+week-le {
+  .le-header {
+    white-space: normal !important;
+    height: 65px;
+    padding: 15px !important;
+    margin: 0px !important;
+    text-align: center;
+    font-weight: 300;
+    background: #ccc;
+    font-size: 21px;
+  }
+  .le-content {
+    padding: 0px !important;
+  }
+  thead {
+     border-bottom: 1px solid #ccc;
+  }
+  thead th {
+     text-align: center;
+     font-size:18px;
+     padding-bottom:10px;
+  }
+  tr td {
+    text-align: center;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    font-weight: 300;
+  }
+  .le-summary-tbody tr {
+    cursor: pointer;
+    font-size: 16px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .le-summary-tbody tr:nth-child(even) {
+    background: #CCC
+  }
+
+}

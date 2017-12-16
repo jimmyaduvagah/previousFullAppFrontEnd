@@ -1,0 +1,219 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+       Edit Survey
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (tap)="submitSurvey()">
+        Submit Survey Changes
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content *ngIf="!loading">
+  <ion-grid>
+    <ion-row>
+
+        <ion-col col-8 offset-2>
+
+              <ion-item>
+                 <ion-label stacked>Survey Title </ion-label>
+                 <ion-input type="text" name="title" [ngModel]="survey.title" (ngModelChange)="onChangeSurveyTitle($event)"></ion-input>
+              </ion-item>
+
+             <form [formGroup]="groupForm" (ngSubmit)="addGroup()" *ngIf="showGroup">
+              <ion-item>
+                 <ion-label stacked>Survey Group Title </ion-label>
+                 <ion-input type="text" name="title" formControlName="title"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label stacked>Survey Group Description </ion-label>
+                 <ion-textarea type="text" name="description" formControlName="description"></ion-textarea>
+                 <button ion-button item-right type="submit" [disabled]="!groupForm.valid">
+                    Submit
+                 </button>
+              </ion-item>
+             </form>
+             <ion-col *ngIf="!showGroup">
+                 <ion-card *ngFor="let group of survey_groups; let g = index;">
+                   <ion-card-header>
+                     <ion-row>
+                         <ion-col col-10>
+                           <ion-item>
+                               <ion-label stacked> Group Title  </ion-label>
+                               <ion-input type="text" name="title" [ngModel]="group.title" autofocus (ngModelChange)="onChangeGroupTitle(g,$event)">
+                               </ion-input>
+                             </ion-item>
+                             <ion-item>
+                                <ion-label stacked>Survey Group Description </ion-label>
+                                 <ion-textarea type="text" name="description" [ngModel]="group.description" (ngModelChange)="OnChangeGroupDescription(g,$event)"></ion-textarea>
+                             </ion-item>
+                         </ion-col>
+                         <ion-col col-2>
+                              <button ion-button clear item-right color="danger" (click)="removeGroup(g)">
+                                  Delete Group
+                              </button>
+                         </ion-col>
+                     </ion-row>
+                     <ion-row>
+                       <ion-col col-3>
+                            <form [formGroup]="surveytypeForm" *ngIf="activateSurvey">
+                             <ion-item>
+                                 <ion-label stacked> Select Question Type </ion-label>
+                                 <ion-select name="type" formControlName="type">
+                                   <ion-option value="radio"> Radio </ion-option>
+                                   <ion-option value="radio-with-other"> Radio with Other </ion-option>
+                                   <ion-option value="longtext"> Long Text </ion-option>
+                                   <ion-option value="shorttext"> Short Text </ion-option>
+                                   <ion-option value="checkbox"> Checkbox </ion-option>
+                                   <ion-option value="checkbox-with-other"> Checkbox with Other </ion-option>
+                                   <ion-option value="scale"> Scale </ion-option>
+                                 </ion-select>
+                            </ion-item>
+                           </form>
+                       </ion-col>
+                       <ion-col col-9>
+                            <form [formGroup]="questionForm" (ngSubmit)="addQuestion(g)" *ngIf="activateSurvey">
+                              <ion-item>
+                                 <ion-label stacked> Question </ion-label>
+                                 <ion-input type="text" name="title" formControlName="title"></ion-input>
+                                  <button ion-button clear item-right type="submit" [disabled]="!questionForm.valid || !surveytypeForm.valid">
+                                                  Submit
+                                  </button>
+                              </ion-item>
+                            </form>
+                       </ion-col>
+                     </ion-row>
+                   </ion-card-header>
+                   <ion-card-content>
+                     <ion-list reorder="true">
+                        <ion-card *ngFor="let question of group.questions; let i = index" class="question-item">
+                         <ion-card-header class="question-header">
+                           <ion-row>
+                               <ion-col  col-7>
+                                  <ion-label stacked> Question  </ion-label>
+                                  <ion-input type="text" name="title" [ngModel]="question.question" autofocus (ngModelChange)="onChangeQuestion(g,$event,i)">
+                                  </ion-input>
+                               </ion-col>
+                               <ion-col col-3>
+                                    <ion-label stacked> Type  </ion-label>
+                                    <ion-select name="type" [ngModel]="question.type" (ngModelChange)="onChangeType(g,$event,i)">
+                                       <ion-option value="radio"> Radio </ion-option>
+                                       <ion-option value="radio-with-other"> Radio with Other </ion-option>
+                                       <ion-option value="longtext"> Long Text </ion-option>
+                                       <ion-option value="shorttext"> Short Text </ion-option>
+                                       <ion-option value="checkbox"> Checkbox </ion-option>
+                                       <ion-option value="checkbox-with-other"> Checkbox with Other </ion-option>
+                                       <ion-option value="scale"> Scale </ion-option>
+                                   </ion-select>
+                               </ion-col>
+                               <ion-col col-2>
+                                  <button ion-button clear item-right color="danger" (click)="removeQuestion(g,i)">
+                                      Delete
+                                  </button>
+                                  <button item-right *ngIf="question.type == 'radio' || question.type == 'radio-with-other'
+                                 || question.type == 'checkbox' || question.type == 'checkbox-with-other' || question.type == 'scale'" padding
+                                  (click)="changeCollapseState(g,i, question.collapse)">
+
+                                    <ion-icon name="ios-arrow-dropdown-outline" *ngIf="!question.collapse">
+                                    </ion-icon>
+
+                                    <ion-icon name="ios-arrow-dropup-outline" *ngIf="question.collapse">
+                                    </ion-icon>
+
+                                  </button>
+                               </ion-col>
+
+                           </ion-row>
+
+                         </ion-card-header>
+                         <ion-card-content *ngIf="question.collapse">
+                           <ion-row>
+                              <ion-col col-8 *ngIf="question.type == 'scale'">
+                                  <ion-item>
+                                    Scale
+                                  </ion-item>
+                                  <ion-item *ngIf="question.scale">
+                                    <ion-label> Start of Scale </ion-label>
+                                    <ion-input [ngModel]="question.scale[0]" (ngModelChange)="onChangeScaleStart(g,i,$event)"></ion-input>
+                                  </ion-item>
+
+                                  <ion-item *ngIf="question.scale">
+                                    <ion-label> End of Scale </ion-label>
+                                    <ion-input [ngModel]="question.scale[1]" (ngModelChange)="onChangeScaleEnd(g,i,$event)"></ion-input>
+                                  </ion-item>
+
+                                  <form [formGroup]="scaleForm" class="answer-form" (ngSubmit)="addScale(g,i)" *ngIf="!question.scale">
+                                    <ion-item>
+                                        <ion-label floating> Start of Scale</ion-label>
+                                        <ion-input type="number" name="start" formControlName="start"></ion-input>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label floating> End of Scale</ion-label>
+                                        <ion-input type="number" name="end" formControlName="end"></ion-input>
+                                    </ion-item>
+                                    <ion-item>
+                                       <button ion-button item-right type="submit">
+                                          Save Scale
+                                        </button>
+                                    </ion-item>
+                                  </form>
+
+                             </ion-col>
+
+                              <ion-col col-8 *ngIf="question.type == 'radio' || question.type == 'radio-with-other'
+                               || question.type == 'checkbox' || question.type == 'checkbox-with-other'">
+                                  <ion-item>
+                                    Answers / Options
+                                  </ion-item>
+                                  <ion-list reorder="true" (ionItemReorder)="reorderOptions(g,i,$event)">
+                                      <ion-item *ngFor="let answer of question.answers;  let a = index;">
+                                        <ion-radio item-left value="{{answer.title}}" *ngIf="question.type == 'radio' || question.type == 'radio-with-other'">
+                                        </ion-radio>
+                                        <ion-checkbox item-left  *ngIf="question.type == 'checkbox' || question.type == 'checkbox-with-other'">
+                                        </ion-checkbox>
+                                        <ion-label>{{answer.title}}</ion-label>
+                                        <button ion-button clear item-right (click) = "removeAnswer(g,i, a)">
+                                          Delete
+                                        </button>
+                                      </ion-item>
+                                  </ion-list>
+                                  <form [formGroup]="answerForm" class="answer-form" (ngSubmit)="addAnswer(g,i)">
+                                    <ion-item>
+                                        <ion-label floating> Add Option  </ion-label>
+                                        <ion-input type="text" name="title" formControlName="title" autofocus></ion-input>
+                                    </ion-item>
+                                  </form>
+
+                             </ion-col>
+
+                           </ion-row>
+                         </ion-card-content>
+                        </ion-card>
+                     </ion-list>
+                   </ion-card-content>
+                 </ion-card>
+             </ion-col>
+        </ion-col>
+        <ion-col col-2>
+           <ion-fab middle left>
+              <button ion-fab>
+                <ion-icon name="add">
+                </ion-icon>
+              </button>
+              <ion-fab-list side="bottom">
+                <button ion-button (click)="anotherQuestion()">Add Survey Question</button>
+                <button ion-button (click)="anotherGroup()">Add Survey Group </button>
+              </ion-fab-list>
+            </ion-fab>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

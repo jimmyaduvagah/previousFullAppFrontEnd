@@ -1,0 +1,59 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+       Survey Responses
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content *ngIf="!loading">
+  <ion-grid fixed>
+    <ion-row>
+        <ion-item *ngIf="surveyRes.count == 0">
+            <ion-col>
+                This survey has no responses yet
+            </ion-col>
+        </ion-item>
+        <table *ngIf="surveyRes.count !== 0">
+          <thead>
+            <th>
+              Survey
+            </th>
+            <th>
+              Response User
+            </th>
+            <th>
+              Response Date
+            </th>
+            <th>
+               Response Details
+            </th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let response of surveyRes.results; let s = index;">
+                <td>
+                   {{ response.title}}
+                </td>
+                <td>
+                   {{ response.created_by}}
+                </td>
+                <td>
+                  {{ response.created_on.slice(0,10)}}
+                </td>
+                <td>
+                   <button ion-button clear item-right (click)="responseDetails(response.answer_data)">
+                                      View Answers
+                   </button>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

@@ -1,0 +1,126 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (swiperight)="panright($event)">
+
+  <ion-item-group>
+    <ion-item-divider color="light">Preferences</ion-item-divider>
+    <ion-item>
+      <ion-label>Save pictures taken to camera roll</ion-label>
+      <ion-toggle [ngModel]="_settingsService.getUserSetting('savePictureToCameraRoll')"
+                  (ngModelChange)="_settingsService.setUserSetting('savePictureToCameraRoll', $event)"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Older Device Mode</ion-label>
+      <ion-toggle [ngModel]="_settingsService.getUserSetting('olderDeviceMode')"
+                  (ngModelChange)="_settingsService.setUserSetting('olderDeviceMode', $event); restartAppAlert()"></ion-toggle>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider color="light">Version Info</ion-item-divider>
+    <ion-item>
+      Installed Version
+      <div item-right>
+        {{ appVersion }}
+      </div>
+    </ion-item>
+    <ion-item>
+      Update Available
+      <ion-spinner *ngIf="checkingForNewVersion" item-right></ion-spinner>
+      <button ion-button (tap)="downloadNewAppVersion()" item-right *ngIf="!checkingForNewVersion && newVersionAvailable == true && readyToUpdate == false">Download Update</button>
+      <button ion-button (tap)="extractNewAppVersion()" item-right *ngIf="!checkingForNewVersion && readyToUpdate == true && updateStarted == false">Install Update</button>
+      <ion-note *ngIf="!checkingForNewVersion && newVersionAvailable == false && downloadStarted == false && updateStarted == false" item-right>
+        <span>No</span>
+      </ion-note>
+    </ion-item>
+    <ion-item *ngIf="downloadProgress">
+      Download Progress
+      <ion-note item-right>
+        <span>
+        {{ downloadProgress }} %
+        </span>
+      </ion-note>
+    </ion-item>
+    <ion-item *ngIf="extractProgress">
+      Install Progress
+      <ion-note item-right>
+        <span>
+        {{ extractProgress }} %
+        </span>
+      </ion-note>
+    </ion-item>
+    <!--<ion-item (tap)="goToDesktopComponent()">-->
+      <!--Go to Desktop Component-->
+    <!--</ion-item>-->
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider color="light">Device Info</ion-item-divider>
+    <ion-item>
+      Device Type
+      <span item-right>{{ device.model }}</span>
+    </ion-item>
+    <ion-item>
+      Device Version
+      <span item-right>{{ device.version }}</span>
+    </ion-item>
+  </ion-item-group>
+  <ion-item-group>
+    <ion-item-divider color="light">Videos</ion-item-divider>
+    <ion-item>
+      Video Quality
+      <ion-select *ngIf="videoQuality" [(ngModel)]="videoQuality" multiple="false" (ngModelChange)="videoQualityChange($event)">
+        <ion-option>Low</ion-option>
+        <ion-option>Medium</ion-option>
+        <ion-option>High</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-item-group>
+  <ion-item-group>
+    <ion-item-divider color="light">Image Cache</ion-item-divider>
+    <ion-item>
+      Image Quality
+      <ion-select *ngIf="imageQuality" [(ngModel)]="imageQuality" multiple="false" (ngModelChange)="imageQualityChange($event)">
+        <ion-option>High</ion-option>
+        <ion-option>Med</ion-option>
+        <ion-option>Low</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      Clear Local Image Cache
+      <button ion-button (tap)="clearImageCache()" item-right>Clear</button>
+    </ion-item>
+    <ion-item (tap)="countImageCache()">
+      Image Cache Size
+      <ion-note item-right>
+        <span>{{imageCacheBytes | fileSize}}</span>
+      </ion-note>
+    </ion-item>
+    <ion-item (tap)="countImageCache()">
+      Images Cache
+      <ion-note item-right>
+        <span>{{ imageCacheCount }}</span>
+      </ion-note>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider color="light">My Account</ion-item-divider>
+    <ion-item (tap)="presentInvitePopover()">
+      <ion-label>Invite</ion-label>
+    </ion-item>
+    <ion-item (tap)="logout()">
+      <ion-label>Logout</ion-label>
+    </ion-item>
+  </ion-item-group>
+
+  <!--<pre>{{user | json}}</pre>-->
+
+</ion-content>

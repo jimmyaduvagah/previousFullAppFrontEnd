@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Add Link
+    </ion-title>
+
+    <ion-buttons start>
+      <button ion-button (click)="goBack()">
+        <span ion-text>Back</span>
+      </button>
+    </ion-buttons>
+
+    <ion-buttons end>
+      <button ion-button (click)="addLink()">
+        <span ion-text showWhen="ios">Add</span>
+        <span ion-text showWhen="android,windows">Add</span>
+        <ion-icon name="md-add" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-input placeholder="Enter a link" [(ngModel)]="this.link._url" clearInput></ion-input>
+      <button ion-button clear item-end (tap)="checkLink()">Check</button>
+    </ion-item>
+    <ion-item *ngIf="link.url && link.display == 'vertical'">
+      <ion-card>
+        <div class="post-image" Image
+             [imageSrc]="link.image"
+             [imageSize]="imageSize"
+             [autoSetHeight]="autoSetHeight"
+             [resize]="'500x500'"
+             [useCache]="true"></div>
+        <div style="padding:0 10px; white-space: normal; white-space: pre-line;">
+          <h2>{{ link.title }}</h2>
+          <p>{{ link.description }}</p>
+        </div>
+      </ion-card>
+    </ion-item>
+    <ion-item *ngIf="link.url && link.display == 'horizontal'">
+      <ion-card style="white-space: normal;">
+        <table width="100%">
+          <tr>
+            <td width="100" valign="top">
+              <ion-slides style="width: 100px; height: 100px;" *ngIf="link.images" (ionSlideDidChange)="slideDidChange($event)">
+                <ion-slide *ngFor="let imageSrc of link.images">
+                  <div class="link-small-image" Image [imageSrc]="imageSrc"></div>
+                </ion-slide>
+              </ion-slides>
+              <div class="link-small-image" Image [imageSrc]="link.image" *ngIf="!link.images"></div>
+            </td>
+            <td class="link-small-image-description">
+              <h2>{{ link.title }}</h2>
+              <p>{{ link.description }}</p>
+            </td>
+          </tr>
+        </table>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+  <!--<pre>{{ link | json}}</pre>-->
+</ion-content>

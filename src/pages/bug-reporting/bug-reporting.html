@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      <ion-title>{{ issues_title }}</ion-title>
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (tap)="createBug()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar color="primary">
+    <ion-segment color="light" [(ngModel)]="issues_title">
+      <ion-segment-button value="Closed Issues">
+        Closed
+      </ion-segment-button>
+      <ion-segment-button value="Open Issues">
+        Open
+      </ion-segment-button>
+      <ion-segment-button value="My Issues">
+        My Issues
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Closed Issues Section -->
+  <ion-list *ngIf="issues_title == 'Closed Issues'">
+
+    <ion-item *ngIf="loading_closed_issues && !refresher">
+      <ion-spinner item-left></ion-spinner>
+      Loading Closed Issues
+    </ion-item>
+    <ion-item *ngIf="!loading_closed_issues && !closed_issues.length">
+      <!--<ion-spinner item-left></ion-spinner>-->
+        We don't have any closed issues
+    </ion-item>
+    <ion-item *ngFor="let item of closed_issues" text-wrap>
+      <h2>{{ item.title }}
+          <ion-badge color="success">
+            Closed
+          </ion-badge>
+      </h2>
+      <p Markdown>{{ item.description }}</p>
+
+    </ion-item>
+  </ion-list>
+
+  <!-- Open Issues Section -->
+  <ion-list *ngIf="issues_title == 'Open Issues'">
+
+    <ion-item *ngIf="loading_open_issues && !refresher" >
+      <ion-spinner item-left></ion-spinner>
+      Loading Open Issues
+    </ion-item>
+    <ion-item *ngIf="!loading_open_issues && !open_issues.length">
+      <!--<ion-spinner item-left></ion-spinner>-->
+        We don't have any open issues
+    </ion-item>
+
+    <ion-item *ngFor="let item of open_issues" text-wrap>
+      <h2>{{ item.title }}
+          <ion-badge color="danger">
+            Opened
+          </ion-badge>
+      </h2>
+      <p Markdown>{{ item.description }}</p>
+    </ion-item>
+
+  </ion-list>
+
+  <!--My Issues section -->
+  <ion-list *ngIf="issues_title == 'My Issues'">
+
+    <ion-item *ngIf="loading_my_issues && !refresher">
+      <ion-spinner item-left></ion-spinner>
+      Loading Your Issues
+    </ion-item>
+    <ion-item *ngIf="!loading_my_issues && !my_issues.length">
+      <!--<ion-spinner item-left></ion-spinner>-->
+        You have not submitted any issues
+    </ion-item>
+    <ion-item *ngFor="let item of my_issues" text-wrap>
+      <h2>{{ item.title }}
+         <ion-badge color="danger" *ngIf="item.state == 'opened'">
+            {{item.state}}
+          </ion-badge>
+          <ion-badge color="success" *ngIf="item.state == 'closed'">
+            {{item.state}}
+          </ion-badge>
+      </h2>
+      <p Markdown>{{ item.description }}</p>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

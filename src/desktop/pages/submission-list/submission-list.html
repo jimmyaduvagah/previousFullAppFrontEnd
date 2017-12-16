@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      LE Submissions
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+    <ion-list  *ngIf="leSubmissionsResponse && !loading">
+      <ion-item *ngFor="let item of leSubmissionsResponse.results">
+        <ion-thumbnail item-left>
+          <img Image class="display-image" [resize]="'200x200'" [backgroundSize]="'cover'" [imageSrc]="(item.image)?item.image.src:null" [localCache]="false" />
+        </ion-thumbnail>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-12 col-md-6 text-wrap>
+              {{ item.title }}
+              <p>Version - {{ item.version }} | Status - {{ item.getStatus() }}</p>
+              <p *ngIf="item.have_i_rated || item.created_by_id == user.id">By: {{ item.created_by }}</p>
+            </ion-col>
+            <ion-col col-12 col-md-6>
+              <div>
+                <le-submission-rating-stars [stars]="item.average_rating | starsView"></le-submission-rating-stars>
+              </div>
+              <div>
+                ({{ item.number_of_ratings }} reviews)
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-buttons item-right>
+          <button *ngIf="item.getStatusCodeName() == 'in_progress'" ion-button clear small (tap)="editLeSubmission(item)">Edit</button>
+
+          <button *ngIf="item.getStatusCodeName() != 'in_progress' && (item.have_i_rated == null || item.have_i_rated == false)" ion-button clear small (tap)="viewLeSubmission(item)">View</button>
+          <button *ngIf="item.have_i_rated" ion-button clear small (tap)="viewLeSubmission(item)">Re-View</button>
+          <!--<button ion-button color="primary" clear small (tap)="submitForReview()">Submit</button>-->
+          <button ion-button color="dark" clear small icon-only (tap)="confirmDelete(item)"><ion-icon name="close"></ion-icon></button>
+        </ion-buttons>
+
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+
+
+  <!--<table class="submission-list table table-striped" border="0" cellpadding="0" cellspacing="0" *ngIf="leSubmissionsResponse && !loading">-->
+    <!--<thead>-->
+      <!--<tr>-->
+        <!--<th></th>-->
+        <!--<th>LE</th>-->
+        <!--<th>Author</th>-->
+        <!--<th>Version</th>-->
+        <!--<th>Status</th>-->
+        <!--<th>Reviews</th>-->
+        <!--<th>Average Rating</th>-->
+        <!--<th></th>-->
+      <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+      <!--<tr *ngFor="let item of leSubmissionsResponse.results">-->
+        <!--<td>-->
+          <!--<img *ngIf="item.image" Image class="display-image" [resize]="'200x200'" [backgroundSize]="'cover'" [imageSrc]="item.image.src" [localCache]="false" />-->
+        <!--</td>-->
+        <!--<td>{{ item.title }}</td>-->
+        <!--<td>{{ item.created_by }}</td>-->
+        <!--<td>{{ item.version }}</td>-->
+        <!--<td>{{ item.getStatus() }}</td>-->
+        <!--<td>{{ item.number_of_ratings }}</td>-->
+        <!--<td>{{ item.average_rating }}</td>-->
+        <!--<td>-->
+          <!--<button *ngIf="item.getStatusCodeName() == 'in_progress'" ion-button (tap)="editLeSubmission(item)"><ion-icon name="create"></ion-icon></button>-->
+          <!--<button *ngIf="item.getStatusCodeName() != 'in_progress'" ion-button (tap)="viewLeSubmission(item)"><ion-icon name="arrow-forward"></ion-icon></button>-->
+          <!--<button ion-button color="secondary" (tap)="submitForReview()"><ion-icon name="send"></ion-icon></button>-->
+          <!--<button ion-button color="danger"><ion-icon name="trash"></ion-icon></button>-->
+        <!--</td>-->
+      <!--</tr>-->
+    <!--</tbody>-->
+  <!--</table>-->
+</ion-content>
